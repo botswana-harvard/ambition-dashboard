@@ -36,15 +36,19 @@ class DashboardView(
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        model_cls = django_apps.get_model(self.offstudy_model)
         dashboard_url_name = django_apps.get_app_config(
             'ambition_dashboard').dashboard_url_name
-        try:
-            subject_offstudy = model_cls.objects.get(
-                subject_identifier=self.subject_identifier)
-        except ObjectDoesNotExist:
-            subject_offstudy = None
         context.update(
-            subject_offstudy=subject_offstudy,
+            subject_offstudy=self.subject_offstudy,
             dashboard_url_name=dashboard_url_name)
         return context
+
+    @property
+    def subject_offstudy(self):
+        model_cls = django_apps.get_model(self.offstudy_model)
+        try:
+            obj = model_cls.objects.get(
+                subject_identifier=self.subject_identifier)
+        except ObjectDoesNotExist:
+            obj = None
+        return obj

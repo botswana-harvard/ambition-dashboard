@@ -2,18 +2,17 @@ from django.test import TestCase, tag
 from edc_model_wrapper.tests import ModelWrapperTestHelper
 
 from ..model_wrappers import AppointmentModelWrapper
+from ..model_wrappers import RequisitionModelWrapper
 from ..model_wrappers import SubjectConsentModelWrapper
 from ..model_wrappers import SubjectLocatorModelWrapper
-from .models import SubjectScreening, Appointment, SubjectVisit
 from ..model_wrappers import SubjectVisitModelWrapper
-from ..model_wrappers import RequisitionModelWrapper
+from .models import SubjectScreening, Appointment, SubjectVisit
 
 
 class TestModelWrappers(TestCase):
 
     model_wrapper_helper_cls = ModelWrapperTestHelper
 
-    @tag('1')
     def test_subject_consent(self):
         subject_screening = SubjectScreening.objects.create(
             screening_identifier='1234')
@@ -24,7 +23,6 @@ class TestModelWrappers(TestCase):
             subject_screening=subject_screening)
         helper.test(self)
 
-    @tag('1')
     def test_subject_locator(self):
         helper = self.model_wrapper_helper_cls(
             model_wrapper=SubjectLocatorModelWrapper,
@@ -32,7 +30,6 @@ class TestModelWrappers(TestCase):
             subject_identifier='092-12345')
         helper.test(self)
 
-    @tag('1')
     def test_appointment(self):
         helper = self.model_wrapper_helper_cls(
             model_wrapper=AppointmentModelWrapper,
@@ -40,7 +37,6 @@ class TestModelWrappers(TestCase):
             subject_identifier='092-12345')
         helper.test(self)
 
-    @tag('1')
     def test_subject_visit(self):
         appointment = Appointment.objects.create(
             subject_identifier='092-12345',)
@@ -51,7 +47,6 @@ class TestModelWrappers(TestCase):
             appointment=appointment)
         helper.test(self)
 
-    @tag('1')
     def test_subject_requisition(self):
         appointment = Appointment.objects.create(
             subject_identifier='092-12345')
