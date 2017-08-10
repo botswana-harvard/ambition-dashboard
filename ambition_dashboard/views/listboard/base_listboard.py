@@ -7,8 +7,8 @@ from edc_dashboard.views import ListboardView
 
 class BaseListboardView(AppConfigViewMixin, EdcBaseViewMixin, ListboardView):
 
-    app_config_name = 'ambition_subject'
-    navbar_item_selected = 'ambition_subject'
+    app_config_name = 'ambition_dashboard'
+    navbar_item_selected = 'ambition_dashboard'
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)

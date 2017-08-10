@@ -4,7 +4,6 @@ from django.apps import apps as django_apps
 from django.contrib.auth.decorators import login_required
 from django.db.models import Q
 from django.utils.decorators import method_decorator
-
 from edc_base.view_mixins import EdcBaseViewMixin
 from edc_dashboard.view_mixins import AppConfigViewMixin
 from edc_dashboard.views import ListboardView
@@ -19,17 +18,14 @@ class ListBoardView(AppConfigViewMixin, EdcBaseViewMixin, ListboardView):
     listboard_url_name = django_apps.get_app_config(
         'ambition_dashboard').listboard_url_name
     paginate_by = 10
-    navbar_item_selected = 'ambition_screening'
     app_config_name = 'ambition_screening'
     ordering = '-modified'
+
+    navbar_item_selected = 'ambition_screening'
 
     @method_decorator(login_required)
     def dispatch(self, *args, **kwargs):
         return super().dispatch(*args, **kwargs)
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        return context
 
     def get_queryset_filter_options(self, request, *args, **kwargs):
         options = super().get_queryset_filter_options(request, *args, **kwargs)

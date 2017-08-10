@@ -22,13 +22,10 @@ class DashboardView(
     offstudy_model = 'ambition_subject.subjectoffstudy'
     consent_model_wrapper_cls = SubjectConsentModelWrapper
     crf_model_wrapper_cls = CrfModelWrapper
-    navbar_item_selected = 'ambition_subject'
     requisition_model_wrapper_cls = RequisitionModelWrapper
     visit_model_wrapper_cls = SubjectVisitModelWrapper
 
-    def __init__(self, **kwargs):
-        super().__init__(**kwargs)
-        self.anonymous = None
+    navbar_item_selected = 'ambition_subject'
 
     @method_decorator(login_required)
     def dispatch(self, *args, **kwargs):
