@@ -1,49 +1,21 @@
 from django.apps import apps as django_apps
-from django.core.exceptions import ObjectDoesNotExist
-
-from edc_base.utils import get_uuid
-from edc_consent.site_consents import site_consents
+from edc_consent.model_wrappers import ConsentModelWrapperMixin
 from edc_model_wrapper import ModelWrapper
 
-# this is bad. Means all of ambition subject needs to be imported
-# just for this.
-from ambition_subject.views import SubjectConsentModelWrapper
+from .subject_consent_model_wrapper import SubjectConsentModelWrapper
 
 
-class ConsentMixin:
+class SubjectScreeningModelWrapper(ConsentModelWrapperMixin, ModelWrapper):
 
-    @property
-    def consent_object(self):
-        """Returns the consent model.
-        """
-        default_consent_group = django_apps.get_app_config(
-            'edc_consent').default_consent_group
-        consent_object = site_consents.get_consent(
-            report_datetime=self.object.report_datetime,
-            consent_group=default_consent_group)
-        return consent_object
-
-    @property
-    def consent(self):
-        """Returns a wrapped saved or unsaved consent.
-        """
-        consent_model_wrapper_cls = SubjectConsentModelWrapper
-        try:
-            consent = self.object.subjectconsent_set.get(
-                version=self.consent_object.version)
-        except ObjectDoesNotExist:
-            consent = self.consent_object.model(
-                subject_identifier=self.object.subject_identifier,
-                consent_identifier=get_uuid(),
-                subject_screening=self.object,
-                version=self.consent_object.version)
-        return consent_model_wrapper_cls(consent)
-
-
-class SubjectScreeningModelWrapper(ConsentMixin, ModelWrapper):
-
-    model = 'ambition_screening.subjectscreening'
+    model = 'ambition_subject.subjectscreening'
     next_url_name = django_apps.get_app_config(
-        'ambition_screening').listboard_url_name
+        'ambition_dashboard').listboard_url_name
     next_url_attrs = ['screening_identifier']
     querystring_attrs = ['gender']
+
+    consent_model_wrapper_cls = SubjectConsentModelWrapper
+
+    def create_consent_options(self):
+        options = super().create_consent_options
+        options.update(subject_screening=self.object)
+        return options
