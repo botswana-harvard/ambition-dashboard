@@ -3,12 +3,12 @@
 {% load staticfiles %}
 
 {% block top_bar %}
-    {% include "ambition_dashboard/dashboard/top_bar.html" %}
+    {% include "ambition_dashboard/screening/dashboard/top_bar.html" %}
 {% endblock top_bar %}
 
 {% block side_bar %}
 
-    {% include "ambition_dashboard/dashboard/sidebar.html" %}
+    {% include "ambition_dashboard/screening/dashboard/sidebar.html" %}
 
 {% endblock side_bar%}
 
@@ -18,7 +18,7 @@
 
 {% block crfs %}
 	{% if crfs %}
-  		{% include "ambition_dashboard/dashboard/crfs.html" %}
+  		{% include "ambition_dashboard/screening/dashboard/crfs.html" %}
   {% endif %}    
 {% endblock crfs %}
 
