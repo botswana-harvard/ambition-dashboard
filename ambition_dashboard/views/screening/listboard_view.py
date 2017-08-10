@@ -33,7 +33,9 @@ class ListBoardView(AppConfigViewMixin, EdcBaseViewMixin, ListboardView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context.update(subject_screening_model_opts=self.model_cls._meta)
+        print('get_absolute_url', self.model_cls().get_absolute_url())
+        context.update(
+            subject_screening_add_url=self.model_cls().get_absolute_url())
         return context
 
     def get_queryset_filter_options(self, request, *args, **kwargs):
