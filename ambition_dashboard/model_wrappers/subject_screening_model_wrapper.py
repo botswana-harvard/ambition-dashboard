@@ -15,6 +15,7 @@ class SubjectScreeningModelWrapper(ConsentModelWrapperMixin, ModelWrapper):
 
     consent_model_wrapper_cls = SubjectConsentModelWrapper
 
+    @property
     def create_consent_options(self):
         options = super().create_consent_options
         options.update(subject_screening=self.object)
