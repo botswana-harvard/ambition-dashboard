@@ -1,8 +1,9 @@
+{% load admin_urls %}
 
 <!-- begin add plot button -->
 
 <a title="add screening" class="btn btn-sm btn-default" role="button" 
-	href="{% url 'ambition_subject:ambition_subject_admin:ambition_subject_subjectscreening_add' %}?next={{ listboard_url_name }}">
+	href="{% url subject_screening_model_opts|admin_urlname:'add' %}?next={{ listboard_url_name }}">
 		<i class="fa fa-plus fa-sm"></i> Add Subject Screening
 </a>
 

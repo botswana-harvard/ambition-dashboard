@@ -16,16 +16,25 @@ class ListBoardView(AppConfigViewMixin, EdcBaseViewMixin, ListboardView):
     model = 'ambition_subject.subjectscreening'
     model_wrapper_cls = SubjectScreeningModelWrapper
     listboard_url_name = django_apps.get_app_config(
-        'ambition_dashboard').listboard_url_name
+        'ambition_dashboard').screening_listboard_url_name
     paginate_by = 10
-    app_config_name = 'ambition_screening'
+    app_config_name = 'ambition_dashboard'
     ordering = '-modified'
 
-    navbar_item_selected = 'ambition_screening'
+    navbar_item_selected = 'screened_subject'
 
     @method_decorator(login_required)
     def dispatch(self, *args, **kwargs):
         return super().dispatch(*args, **kwargs)
+
+    def get_template_names(self):
+        return [django_apps.get_app_config(
+            self.app_config_name).screening_listboard_template_name]
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context.update(subject_screening_model_opts=self.model_cls._meta)
+        return context
 
     def get_queryset_filter_options(self, request, *args, **kwargs):
         options = super().get_queryset_filter_options(request, *args, **kwargs)
