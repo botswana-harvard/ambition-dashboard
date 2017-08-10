@@ -9,7 +9,7 @@ class SubjectScreeningModelWrapper(ConsentModelWrapperMixin, ModelWrapper):
 
     model = 'ambition_subject.subjectscreening'
     next_url_name = django_apps.get_app_config(
-        'ambition_dashboard').listboard_url_name
+        'ambition_dashboard').screening_listboard_url_name
     next_url_attrs = ['screening_identifier']
     querystring_attrs = ['gender']
 
