@@ -1,9 +1,15 @@
-from django.conf.urls import url
-from edc_constants.constants import UUID_PATTERN
 from django.conf import settings
+from django.conf.urls import url
+from django.contrib import admin
+
+from edc_constants.constants import UUID_PATTERN
 
 from .patterns import subject_identifier, screening_identifier
 from .views import ListboardView, DashboardView, ScreeningListboardView
+
+app_name = 'ambition_dashboard'
+
+admin.autodiscover()
 
 
 def listboard_urls():

@@ -17,7 +17,7 @@ class DashboardView(
         AppConfigViewMixin, EdcBaseViewMixin,
         TemplateView):
 
-    app_config_name = 'ambition_subject'
+    app_config_name = 'ambition_dashboard'
     consent_model = 'ambition_subject.subjectconsent'
     offstudy_model = 'ambition_subject.subjectoffstudy'
     consent_model_wrapper_cls = SubjectConsentModelWrapper
