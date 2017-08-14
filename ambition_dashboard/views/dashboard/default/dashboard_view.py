@@ -25,7 +25,7 @@ class DashboardView(
     requisition_model_wrapper_cls = RequisitionModelWrapper
     visit_model_wrapper_cls = SubjectVisitModelWrapper
 
-    navbar_item_selected = 'ambition_subject'
+    navbar_item_selected = 'consented_subject'
 
     @method_decorator(login_required)
     def dispatch(self, *args, **kwargs):
