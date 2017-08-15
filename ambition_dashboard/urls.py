@@ -5,7 +5,7 @@ from django.contrib import admin
 from edc_constants.constants import UUID_PATTERN
 
 from .patterns import subject_identifier, screening_identifier
-from .views import ListboardView, DashboardView, ScreeningListboardView
+from .views import SubjectListboardView, SubjectDashboardView, ScreeningListboardView
 
 app_name = 'ambition_dashboard'
 
@@ -14,7 +14,7 @@ admin.autodiscover()
 
 def listboard_urls():
     urlpatterns = []
-    listboard_configs = [('listboard_url', ListboardView, 'listboard')]
+    listboard_configs = [('listboard_url', SubjectListboardView, 'listboard')]
     for listboard_url_name, listboard_view_class, label in listboard_configs:
         urlpatterns.extend([
             url(r'^' + label + '/'
@@ -34,7 +34,7 @@ def listboard_urls():
 def dashboard_urls():
     urlpatterns = []
 
-    dashboard_configs = [('dashboard_url', DashboardView, 'dashboard')]
+    dashboard_configs = [('dashboard_url', SubjectDashboardView, 'dashboard')]
 
     for dashboard_url_name, dashboard_view_class, label in dashboard_configs:
         urlpatterns.extend([

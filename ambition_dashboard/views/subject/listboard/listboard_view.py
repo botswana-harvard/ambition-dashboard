@@ -6,13 +6,14 @@ from django.utils.decorators import method_decorator
 from edc_base.utils import get_utcnow
 from edc_base.view_mixins import EdcBaseViewMixin
 from edc_constants.constants import MALE
-from edc_dashboard.view_mixins import AppConfigViewMixin
+from edc_dashboard.view_mixins import AppConfigViewMixin, ListboardFilterViewMixin
 from edc_dashboard.views import ListboardView
 
-from ...model_wrappers import SubjectConsentModelWrapper
+from ....model_wrappers import SubjectConsentModelWrapper
 
 
-class ListboardView(AppConfigViewMixin, EdcBaseViewMixin, ListboardView):
+class ListboardView(AppConfigViewMixin, EdcBaseViewMixin,
+                    ListboardFilterViewMixin, ListboardView):
 
     model = 'ambition_subject.subjectconsent'
     model_wrapper_cls = SubjectConsentModelWrapper

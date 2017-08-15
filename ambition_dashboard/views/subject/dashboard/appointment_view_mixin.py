@@ -1,7 +1,7 @@
 from edc_appointment.models import Appointment
 from edc_appointment.view_mixins import AppointmentViewMixin as BaseAppointmentMixin
 
-from ...model_wrappers import AppointmentModelWrapper
+from ....model_wrappers import AppointmentModelWrapper
 
 
 class AppointmentViewMixin(BaseAppointmentMixin):

@@ -5,13 +5,15 @@ from django.contrib.auth.decorators import login_required
 from django.db.models import Q
 from django.utils.decorators import method_decorator
 from edc_base.view_mixins import EdcBaseViewMixin
-from edc_dashboard.view_mixins import AppConfigViewMixin
+from edc_dashboard.view_mixins import AppConfigViewMixin, ListboardFilterViewMixin
 from edc_dashboard.views import ListboardView
 
 from ...model_wrappers import SubjectScreeningModelWrapper
+from .filters import ListboardViewFilters
 
 
-class ListBoardView(AppConfigViewMixin, EdcBaseViewMixin, ListboardView):
+class ListBoardView(AppConfigViewMixin, EdcBaseViewMixin,
+                    ListboardFilterViewMixin, ListboardView):
 
     model = 'ambition_subject.subjectscreening'
     model_wrapper_cls = SubjectScreeningModelWrapper
@@ -20,6 +22,7 @@ class ListBoardView(AppConfigViewMixin, EdcBaseViewMixin, ListboardView):
     paginate_by = 10
     app_config_name = 'ambition_dashboard'
     ordering = '-modified'
+    listboard_view_filters = ListboardViewFilters()
 
     navbar_item_selected = 'screened_subject'
 
@@ -33,7 +36,6 @@ class ListBoardView(AppConfigViewMixin, EdcBaseViewMixin, ListboardView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        print('get_absolute_url', self.model_cls().get_absolute_url())
         context.update(
             subject_screening_add_url=self.model_cls().get_absolute_url())
         return context
