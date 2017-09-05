@@ -4,6 +4,7 @@ from .crf_model_wrapper import CrfModelWrapper
 class RequisitionModelWrapper(CrfModelWrapper):
 
     model = 'ambition_subject.subjectrequisition'
+    requisition_panel_name = None
     next_url_attrs = ['appointment', 'subject_identifier']
     querystring_attrs = ['subject_visit', 'panel_name']
 
@@ -17,3 +18,7 @@ class RequisitionModelWrapper(CrfModelWrapper):
     @property
     def subject_identifier(self):
         return self.object.subject_visit.subject_identifier
+
+    @property
+    def panel_name(self):
+        return self.requisition_panel_name
