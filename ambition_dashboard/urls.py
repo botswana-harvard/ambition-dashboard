@@ -6,6 +6,7 @@ from edc_constants.constants import UUID_PATTERN
 
 from .patterns import subject_identifier, screening_identifier
 from .views import SubjectListboardView, SubjectDashboardView, ScreeningListboardView
+from .views import UnscheduledAppointmentView
 
 app_name = 'ambition_dashboard'
 
@@ -77,7 +78,9 @@ def screening_listboard_urls():
     return urlpatterns
 
 
-urlpatterns = listboard_urls() + screening_listboard_urls() + dashboard_urls()
+urlpatterns = listboard_urls() + screening_listboard_urls() + dashboard_urls() + [
+    url(r'^unscheduled_appointment/(?P<subject_identifier>' + subject_identifier + ')/$',
+        UnscheduledAppointmentView.as_view(), name='unscheduled_appointment_url'), ]
 
 if settings.APP_NAME == 'ambition_dashboard':
     from .tests.admin import ambition_subject_admin
