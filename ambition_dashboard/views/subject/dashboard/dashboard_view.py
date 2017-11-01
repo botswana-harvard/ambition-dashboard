@@ -65,3 +65,9 @@ class DashboardView(
         except ObjectDoesNotExist:
             obj = None
         return obj
+
+    @property
+    def appointment_model(self):
+        return django_apps.get_app_config(
+            'edc_appointment').get_configuration(
+                name='ambition_subject.appointment').model_cls
