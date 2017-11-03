@@ -1,5 +1,6 @@
 from django.apps import apps as django_apps
 from django.contrib import messages
+from django.core.exceptions import ObjectDoesNotExist
 from django.http.response import HttpResponseRedirect
 from django.urls import reverse
 from django.views.generic.base import TemplateView
@@ -22,6 +23,8 @@ class UnscheduledAppointmentView(TemplateView, AppConfigViewMixin):
             try:
                 self.unscheduled_app_cls(
                     kwargs.get('subject_identifier'))
+            except ObjectDoesNotExist as e:
+                messages.error(self.request, str(e))
             except VisitConfigError as e:
                 messages.warning(self.request, str(e))
             except AppointmentStatusError as e:

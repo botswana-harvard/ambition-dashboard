@@ -3,6 +3,7 @@ from edc_appointment.appointment_creator import AppointmentCreator
 from edc_appointment.constants import NEW_APPT, IN_PROGRESS_APPT
 from edc_base.utils import get_utcnow
 from edc_visit_schedule.site_visit_schedules import site_visit_schedules
+from django.core.exceptions import ObjectDoesNotExist
 
 
 class VisitConfigError(Exception):
@@ -27,6 +28,9 @@ class UnscheduledAppointment:
 
         visit_obj = self.visit_model_cls.objects.filter(
             **options).order_by('report_datetime').last()
+
+        if visit_obj is None:
+            raise ObjectDoesNotExist('No existing visit found.')
 
         if visit_obj.appointment.appt_status in [NEW_APPT, IN_PROGRESS_APPT]:
             raise AppointmentStatusError(
