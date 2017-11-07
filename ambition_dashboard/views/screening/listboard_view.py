@@ -7,12 +7,13 @@ from django.utils.decorators import method_decorator
 from edc_base.view_mixins import EdcBaseViewMixin
 from edc_dashboard.view_mixins import AppConfigViewMixin, ListboardFilterViewMixin
 from edc_dashboard.views import ListboardView
+from edc_navbar import NavbarViewMixin
 
 from ...model_wrappers import SubjectScreeningModelWrapper
 from .filters import ListboardViewFilters
 
 
-class ListBoardView(AppConfigViewMixin, EdcBaseViewMixin,
+class ListBoardView(NavbarViewMixin, AppConfigViewMixin, EdcBaseViewMixin,
                     ListboardFilterViewMixin, ListboardView):
 
     model = 'ambition_subject.subjectscreening'
@@ -24,7 +25,8 @@ class ListBoardView(AppConfigViewMixin, EdcBaseViewMixin,
     ordering = '-modified'
     listboard_view_filters = ListboardViewFilters()
 
-    navbar_item_selected = 'screened_subject'
+    navbar_name = 'ambition_dashboard'
+    navbar_selected_item = 'screened_subject'
 
     @method_decorator(login_required)
     def dispatch(self, *args, **kwargs):

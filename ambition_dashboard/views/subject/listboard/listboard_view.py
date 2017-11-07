@@ -8,17 +8,20 @@ from edc_base.view_mixins import EdcBaseViewMixin
 from edc_constants.constants import MALE
 from edc_dashboard.view_mixins import AppConfigViewMixin, ListboardFilterViewMixin
 from edc_dashboard.views import ListboardView
+from edc_navbar import NavbarViewMixin
 
 from ....model_wrappers import SubjectConsentModelWrapper
 
 
-class ListboardView(AppConfigViewMixin, EdcBaseViewMixin,
+class ListboardView(NavbarViewMixin, AppConfigViewMixin, EdcBaseViewMixin,
                     ListboardFilterViewMixin, ListboardView):
 
     model = 'ambition_subject.subjectconsent'
     model_wrapper_cls = SubjectConsentModelWrapper
     app_config_name = 'ambition_dashboard'
-    navbar_item_selected = 'consented_subject'
+
+    navbar_name = 'ambition_dashboard'
+    navbar_selected_item = 'consented_subject'
 
     @method_decorator(login_required)
     def dispatch(self, *args, **kwargs):

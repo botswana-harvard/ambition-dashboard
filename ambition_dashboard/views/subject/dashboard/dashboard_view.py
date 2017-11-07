@@ -9,6 +9,7 @@ from edc_appointment.models import Appointment
 from edc_base.view_mixins import EdcBaseViewMixin
 from edc_dashboard.view_mixins import AppConfigViewMixin
 from edc_dashboard.view_mixins import DashboardViewMixin as EdcDashboardViewMixin
+from edc_navbar import NavbarViewMixin
 from edc_subject_dashboard.view_mixins import SubjectDashboardViewMixin
 
 from ....model_wrappers import CrfModelWrapper, SubjectVisitModelWrapper
@@ -17,7 +18,7 @@ from ....model_wrappers import RequisitionModelWrapper, SubjectConsentModelWrapp
 
 class DashboardView(
         SubjectDashboardViewMixin, EdcDashboardViewMixin,
-        AppConfigViewMixin, EdcBaseViewMixin,
+        NavbarViewMixin, AppConfigViewMixin, EdcBaseViewMixin,
         TemplateView):
 
     appointment_model_wrapper_cls = AppointmentModelWrapper
@@ -32,7 +33,8 @@ class DashboardView(
     requisition_model_wrapper_cls = RequisitionModelWrapper
     visit_model_wrapper_cls = SubjectVisitModelWrapper
 
-    navbar_item_selected = 'consented_subject'
+    navbar_name = 'ambition_dashboard'
+    navbar_selected_item = 'consented_subject'
 
     @method_decorator(login_required)
     def dispatch(self, *args, **kwargs):
@@ -65,9 +67,3 @@ class DashboardView(
         except ObjectDoesNotExist:
             obj = None
         return obj
-
-    @property
-    def appointment_model(self):
-        return django_apps.get_app_config(
-            'edc_appointment').get_configuration(
-                name='ambition_subject.appointment').model_cls
