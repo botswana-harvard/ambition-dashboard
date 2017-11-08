@@ -1,7 +1,5 @@
 from django.conf import settings
-from django.conf.urls import url
-from django.contrib import admin
-
+from django.urls.conf import path, re_path
 from edc_constants.constants import UUID_PATTERN
 
 from .patterns import subject_identifier, screening_identifier
@@ -10,25 +8,23 @@ from .views import UnscheduledAppointmentView
 
 app_name = 'ambition_dashboard'
 
-admin.autodiscover()
-
 
 def listboard_urls():
     urlpatterns = []
     listboard_configs = [('listboard_url', SubjectListboardView, 'listboard')]
     for listboard_url_name, listboard_view_class, label in listboard_configs:
         urlpatterns.extend([
-            url(r'^' + label + '/'
-                '(?P<subject_identifier>' + subject_identifier + ')/'
-                '(?P<page>\d+)/',
-                listboard_view_class.as_view(), name=listboard_url_name),
-            url(r'^' + label + '/'
-                '(?P<subject_identifier>' + subject_identifier + ')/',
-                listboard_view_class.as_view(), name=listboard_url_name),
-            url(r'^' + label + '/(?P<page>\d+)/',
-                listboard_view_class.as_view(), name=listboard_url_name),
-            url(r'^' + label + '/',
-                listboard_view_class.as_view(), name=listboard_url_name)])
+            re_path(r'^' + label + '/'
+                    '(?P<subject_identifier>' + subject_identifier + ')/'
+                    '(?P<page>\d+)/',
+                    listboard_view_class.as_view(), name=listboard_url_name),
+            re_path(r'^' + label + '/'
+                    '(?P<subject_identifier>' + subject_identifier + ')/',
+                    listboard_view_class.as_view(), name=listboard_url_name),
+            re_path(r'^' + label + '/(?P<page>\d+)/',
+                    listboard_view_class.as_view(), name=listboard_url_name),
+            re_path(r'^' + label + '/',
+                    listboard_view_class.as_view(), name=listboard_url_name)])
     return urlpatterns
 
 
@@ -39,20 +35,20 @@ def dashboard_urls():
 
     for dashboard_url_name, dashboard_view_class, label in dashboard_configs:
         urlpatterns.extend([
-            url(r'^' + label + '/'
-                '(?P<subject_identifier>' + subject_identifier + ')/'
-                '(?P<appointment>' + UUID_PATTERN.pattern + ')/',
-                dashboard_view_class.as_view(), name=dashboard_url_name),
-            url(r'^' + label + '/'
-                '(?P<subject_identifier>' + UUID_PATTERN.pattern + ')/',
-                dashboard_view_class.as_view(), name=dashboard_url_name),
-            url(r'^' + label + '/'
-                '(?P<subject_identifier>' + subject_identifier + ')/',
-                dashboard_view_class.as_view(), name=dashboard_url_name),
-            url(r'^' + label + '/'
-                '(?P<subject_identifier>' + subject_identifier + ')/'
-                '(?P<schedule_name>' + 'schedule1' + ')/',
-                dashboard_view_class.as_view(), name=dashboard_url_name),
+            re_path(r'^' + label + '/'
+                    '(?P<subject_identifier>' + subject_identifier + ')/'
+                    '(?P<appointment>' + UUID_PATTERN.pattern + ')/',
+                    dashboard_view_class.as_view(), name=dashboard_url_name),
+            re_path(r'^' + label + '/'
+                    '(?P<subject_identifier>' + UUID_PATTERN.pattern + ')/',
+                    dashboard_view_class.as_view(), name=dashboard_url_name),
+            re_path(r'^' + label + '/'
+                    '(?P<subject_identifier>' + subject_identifier + ')/',
+                    dashboard_view_class.as_view(), name=dashboard_url_name),
+            re_path(r'^' + label + '/'
+                    '(?P<subject_identifier>' + subject_identifier + ')/'
+                    '(?P<schedule_name>' + 'schedule1' + ')/',
+                    dashboard_view_class.as_view(), name=dashboard_url_name),
         ])
     return urlpatterns
 
@@ -64,25 +60,37 @@ def screening_listboard_urls():
         ('screening_listboard_url', ScreeningListboardView, 'screening_listboard')]
     for listboard_url_name, listboard_view_class, label in listboard_configs:
         urlpatterns.extend([
-            url(r'^' + label + '/'
-                '(?P<screening_identifier>' + screening_identifier + ')/'
-                '(?P<page>\d+)/',
-                listboard_view_class.as_view(), name=listboard_url_name),
-            url(r'^' + label + '/'
-                '(?P<screening_identifier>' + screening_identifier + ')/',
-                listboard_view_class.as_view(), name=listboard_url_name),
-            url(r'^' + label + '/(?P<page>\d+)/',
-                listboard_view_class.as_view(), name=listboard_url_name),
-            url(r'^' + label + '/',
-                listboard_view_class.as_view(), name=listboard_url_name)])
+            re_path(r'^' + label + '/'
+                    '(?P<screening_identifier>' + screening_identifier + ')/'
+                    '(?P<page>\d+)/',
+                    listboard_view_class.as_view(), name=listboard_url_name),
+            re_path(r'^' + label + '/'
+                    '(?P<screening_identifier>' + screening_identifier + ')/',
+                    listboard_view_class.as_view(), name=listboard_url_name),
+            re_path(r'^' + label + '/(?P<page>\d+)/',
+                    listboard_view_class.as_view(), name=listboard_url_name),
+            re_path(r'^' + label + '/',
+                    listboard_view_class.as_view(), name=listboard_url_name)])
     return urlpatterns
 
 
 urlpatterns = listboard_urls() + screening_listboard_urls() + dashboard_urls() + [
-    url(r'^unscheduled_appointment/(?P<subject_identifier>' + subject_identifier + ')/$',
-        UnscheduledAppointmentView.as_view(), name='unscheduled_appointment_url'), ]
+    re_path(r'^unscheduled_appointment/(?P<subject_identifier>' + subject_identifier + ')/$',
+            UnscheduledAppointmentView.as_view(), name='unscheduled_appointment_url'), ]
 
 if settings.APP_NAME == 'ambition_dashboard':
+
+    from django.views.generic.base import RedirectView
+    from edc_base.views import LoginView, LogoutView
+
     from .tests.admin import ambition_subject_admin
-    urlpatterns = ([url(r'^admin/', ambition_subject_admin.urls)]
-                   + urlpatterns)
+
+    urlpatterns = ([
+        path(r'^admin/', ambition_subject_admin.urls),
+        path('admininistration/', RedirectView.as_view(url='admin/'),
+             name='administration_url'),
+        path(r'', RedirectView.as_view(url='admin/'), name='home_url'),
+        path('login', LoginView.as_view(), name='login_url'),
+        path('logout', LogoutView.as_view(
+            pattern_name='login_url'), name='logout_url'),
+    ] + urlpatterns)

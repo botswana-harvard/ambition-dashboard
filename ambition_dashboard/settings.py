@@ -42,8 +42,8 @@ INSTALLED_APPS = [
     'django_revision.apps.AppConfig',
     'edc_appointment.apps.AppConfig',
     'edc_device.apps.AppConfig',
+    'edc_navbar.apps.AppConfig',
     'edc_identifier.apps.AppConfig',
-    'edc_protocol.apps.AppConfig',
     'edc_model_wrapper.apps.AppConfig',
     'ambition_dashboard.apps.AppConfig',
 ]

@@ -1,6 +1,11 @@
 from edc_navbar import NavbarItem, site_navbars, Navbar
+from django.conf import settings
 
-url_namespace = 'ambition_dashboard'
+
+if settings.APP_NAME == 'ambition_dashboard':
+    url_namespace = None
+else:
+    url_namespace = 'ambition_dashboard'
 
 ambition_dashboard = Navbar(name='ambition_dashboard')
 
@@ -10,7 +15,8 @@ ambition_dashboard.append_item(
         title='Screening',
         label='screening',
         fa_icon='fa-user-circle-o',
-        url_name=f'{url_namespace}:screening_listboard_url'))
+        url_name='screening_listboard_url',
+        url_namespace=url_namespace))
 
 ambition_dashboard.append_item(
     NavbarItem(
@@ -18,7 +24,8 @@ ambition_dashboard.append_item(
         title='Subjects',
         label='subjects',
         fa_icon='fa-user-circle-o',
-        url_name=f'{url_namespace}:listboard_url'))
+        url_name='listboard_url',
+        url_namespace=url_namespace))
 
 # ambition_dashboard.append_item(
 #     NavbarItem(

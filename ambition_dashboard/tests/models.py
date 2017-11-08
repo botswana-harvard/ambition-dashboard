@@ -1,4 +1,5 @@
 from django.db import models
+from django.db.models.deletion import PROTECT
 from edc_base.model_mixins import BaseUuidModel
 
 
@@ -9,14 +10,14 @@ class Appointment(BaseUuidModel):
 
 class SubjectVisit(BaseUuidModel):
 
-    appointment = models.OneToOneField(Appointment)
+    appointment = models.OneToOneField(Appointment, on_delete=PROTECT)
 
     subject_identifier = models.CharField(max_length=25)
 
 
 class SubjectRequisition(BaseUuidModel):
 
-    subject_visit = models.ForeignKey(SubjectVisit)
+    subject_visit = models.ForeignKey(SubjectVisit, on_delete=PROTECT)
 
     panel_name = models.CharField(max_length=25)
 
@@ -28,7 +29,8 @@ class SubjectScreening(BaseUuidModel):
 
 class SubjectConsent(BaseUuidModel):
 
-    subject_screening = models.ForeignKey(SubjectScreening, null=True)
+    subject_screening = models.ForeignKey(
+        SubjectScreening, null=True, on_delete=PROTECT)
 
     subject_identifier = models.CharField(max_length=25)
 
