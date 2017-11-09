@@ -14,7 +14,7 @@ ambition_dashboard.append_item(
         name='screened_subject',
         title='Screening',
         label='screening',
-        fa_icon='fa-user-circle-o',
+        fa_icon='fa-user-plus',
         url_name='screening_listboard_url',
         url_namespace=url_namespace))
 
@@ -27,12 +27,4 @@ ambition_dashboard.append_item(
         url_name='listboard_url',
         url_namespace=url_namespace))
 
-# ambition_dashboard.append_item(
-#     NavbarItem(
-#         name='lab',
-#         title='edc_lab_dashboard',
-#         glyphicon='fa-flask',
-#         url_name=f'ambition:home_url'))
-
-# register the navbar to the site
 site_navbars.register(ambition_dashboard)

@@ -12,3 +12,5 @@ class AppConfig(DjangoAppConfig):
     listboard_url_name = 'ambition_dashboard:listboard_url'
     screening_listboard_template_name = 'ambition_dashboard/screening/listboard.html'
     screening_listboard_url_name = 'ambition_dashboard:screening_listboard_url'
+
+    include_in_administration_section = False

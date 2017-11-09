@@ -13,7 +13,7 @@ from edc_navbar import NavbarViewMixin
 from ....model_wrappers import SubjectConsentModelWrapper
 
 
-class ListboardView(NavbarViewMixin, AppConfigViewMixin, EdcBaseViewMixin,
+class ListboardView(EdcBaseViewMixin, NavbarViewMixin, AppConfigViewMixin,
                     ListboardFilterViewMixin, ListboardView):
 
     model = 'ambition_subject.subjectconsent'
