@@ -1,5 +1,5 @@
 from django.conf import settings
-from django.urls.conf import path, re_path
+from django.urls.conf import path, re_path, include
 from edc_constants.constants import UUID_PATTERN
 
 from .patterns import subject_identifier, screening_identifier
@@ -85,12 +85,13 @@ if settings.APP_NAME == 'ambition_dashboard':
 
     from .tests.admin import ambition_subject_admin
 
-    urlpatterns = ([
+    urlpatterns += [
+        path('edc_device/', include('edc_device.urls')),
+        path('edc_protocol/', include('edc_protocol.urls')),
         path(r'^admin/', ambition_subject_admin.urls),
         path('admininistration/', RedirectView.as_view(url='admin/'),
              name='administration_url'),
-        path(r'', RedirectView.as_view(url='admin/'), name='home_url'),
         path('login', LoginView.as_view(), name='login_url'),
         path('logout', LogoutView.as_view(
             pattern_name='login_url'), name='logout_url'),
-    ] + urlpatterns)
+        path(r'', RedirectView.as_view(url='admin/'), name='home_url')]
