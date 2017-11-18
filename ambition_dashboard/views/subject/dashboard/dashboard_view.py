@@ -54,7 +54,7 @@ class DashboardView(
 
     def is_current_enrollment_model(self, enrollment_instance,
                                     schedule=None, **kwargs):
-        if (enrollment_instance.schedule_name == 'schedule1'):
+        if (enrollment_instance.schedule_name == 'schedule'):
             return True
         return False
 

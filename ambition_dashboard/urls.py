@@ -47,7 +47,7 @@ def dashboard_urls():
                     dashboard_view_class.as_view(), name=dashboard_url_name),
             re_path(r'^' + label + '/'
                     '(?P<subject_identifier>' + subject_identifier + ')/'
-                    '(?P<schedule_name>' + 'schedule1' + ')/',
+                    '(?P<schedule_name>' + 'schedule' + ')/',
                     dashboard_view_class.as_view(), name=dashboard_url_name),
         ])
     return urlpatterns
