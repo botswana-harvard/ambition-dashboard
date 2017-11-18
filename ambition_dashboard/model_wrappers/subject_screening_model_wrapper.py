@@ -20,7 +20,7 @@ class SubjectScreeningModelWrapper(ConsentModelWrapperMixin, ModelWrapper):
 
     @property
     def html_reason(self):
-        if not self.eligible:
+        if not self.object.eligible:
             html = '<BR>'.join(self.object.reasons_ineligible.split(','))
             return mark_safe('<BR>'.join(['No:', html]))
         else:
