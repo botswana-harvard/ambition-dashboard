@@ -83,7 +83,7 @@ class DashboardView(
             return False
         else:
             obj = EarlyWithdrawalEvaluator(
-                alt=blood_result.alt_result,
+                alt=blood_result.alt,
                 pmn=blood_result.absolute_neutrophil,
-                platlets=blood_result.platelets, allow_none=True)
+                platlets=blood_result.platelets)
             return obj.eligible
