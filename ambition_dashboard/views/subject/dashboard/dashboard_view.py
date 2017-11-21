@@ -1,14 +1,17 @@
-from ambition_dashboard.model_wrappers import AppointmentModelWrapper
-from ambition_dashboard.model_wrappers import SubjectLocatorModelWrapper
-from django.apps import apps as django_apps
-from django.contrib.auth.decorators import login_required
-from django.core.exceptions import ObjectDoesNotExist
-from django.utils.decorators import method_decorator
-from django.views.generic.base import TemplateView
 from edc_appointment.models import Appointment
 from edc_base.view_mixins import EdcBaseViewMixin
 from edc_dashboard.view_mixins import AppConfigViewMixin
 from edc_dashboard.view_mixins import DashboardViewMixin as EdcDashboardViewMixin
+
+from django.apps import apps as django_apps
+from django.contrib.auth.decorators import login_required
+from django.utils.decorators import method_decorator
+from django.views.generic.base import TemplateView
+
+from ambition_dashboard.model_wrappers import (
+    SubjectLocatorModelWrapper, SubjectOffstudyModelWrapper)
+from ambition_dashboard.model_wrappers import AppointmentModelWrapper
+from ambition_subject.eligibility import EarlyWithdrawalEvaluator
 from edc_navbar import NavbarViewMixin
 from edc_subject_dashboard.view_mixins import SubjectDashboardViewMixin
 
@@ -26,8 +29,10 @@ class DashboardView(
 
     app_config_name = 'ambition_dashboard'
     consent_model = 'ambition_subject.subjectconsent'
-    offstudy_model = 'ambition_subject.subjectoffstudy'
+    subject_offstudy_model = 'ambition_subject.subjectoffstudy'
+    blood_result_model = 'ambition_subject.bloodresult'
     consent_model_wrapper_cls = SubjectConsentModelWrapper
+    offstudy_model_wrapper_cls = SubjectOffstudyModelWrapper
     crf_model_wrapper_cls = CrfModelWrapper
     visit_model_wrapper_cls = SubjectVisitModelWrapper
 
@@ -43,7 +48,7 @@ class DashboardView(
         dashboard_url_name = django_apps.get_app_config(
             self.app_config_name).dashboard_url_name
         context.update(
-            subject_offstudy=self.subject_offstudy,
+            offstudy_required=self.offstudy_required,
             dashboard_url_name=dashboard_url_name)
         return context
 
@@ -57,11 +62,26 @@ class DashboardView(
         return False
 
     @property
-    def subject_offstudy(self):
-        model_cls = django_apps.get_model(self.offstudy_model)
+    def blood_result_model_cls(self):
         try:
-            obj = model_cls.objects.get(
-                subject_identifier=self.subject_identifier)
-        except ObjectDoesNotExist:
-            obj = None
-        return obj
+            model_cls = django_apps.get_model(self.blood_result_model)
+        except LookupError as e:
+            raise Exception(
+                f'Unable to lookup subject blood result model. '
+                f'model={self.blood_result_model}. Got {e}')
+        return model_cls
+
+    def offstudy_required(self):
+        try:
+            model_cls = self.blood_result_model_cls
+            blood_result = model_cls.objects.get(
+                subject_visit__subject_identifier=self.subject_identifier,
+                subject_visit__visit_code='1000')
+        except model_cls.DoesNotExist:
+            return False
+        else:
+            obj = EarlyWithdrawalEvaluator(
+                alt=blood_result.alt,
+                pmn=blood_result.absolute_neutrophil,
+                platlets=blood_result.platelets)
+            return not obj.eligible

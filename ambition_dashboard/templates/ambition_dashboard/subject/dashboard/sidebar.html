@@ -35,6 +35,13 @@
 		            <h6>Unscheduled Appointment</span></h6> 
 		        </td>
 	        </tr>
+	        {% if offstudy_required %}
+	            <tr>
+	                {% with wrapped=subject_offstudy %}
+	                    {% include 'edc_dashboard/controls/change_button_as_column.html' %}
+	                {% endwith %}
+	            </tr>
+	        {% endif %}
         </tbody>
     </table>
 </div>
