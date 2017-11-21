@@ -86,4 +86,4 @@ class DashboardView(
                 alt=blood_result.alt,
                 pmn=blood_result.absolute_neutrophil,
                 platlets=blood_result.platelets)
-            return obj.eligible
+            return not obj.eligible
