@@ -6,8 +6,8 @@ from django.urls import reverse
 from django.views.generic.base import TemplateView
 from edc_dashboard.view_mixins import AppConfigViewMixin
 
-from ambition_dashboard.unscheduled_appointment import UnscheduledAppointment
-from ambition_dashboard.unscheduled_appointment import VisitConfigError, AppointmentStatusError
+from ....unscheduled_appointment import UnscheduledAppointment
+from ....unscheduled_appointment import VisitConfigError, AppointmentStatusError
 
 
 class UnscheduledAppointmentView(TemplateView, AppConfigViewMixin):
@@ -30,11 +30,3 @@ class UnscheduledAppointmentView(TemplateView, AppConfigViewMixin):
             except AppointmentStatusError as e:
                 messages.error(self.request, str(e))
         return HttpResponseRedirect(reverse(f'{self.dashboard_url_name}', kwargs=kwargs))
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context.update({
-            'project_name': '{}'.format(
-                context.get('project_name'), )
-        })
-        return context
