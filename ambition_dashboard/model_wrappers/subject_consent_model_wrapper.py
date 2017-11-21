@@ -9,7 +9,8 @@ class SubjectConsentModelWrapper(ModelWrapper):
     next_url_name = django_apps.get_app_config(
         'ambition_dashboard').dashboard_url_name
     next_url_attrs = ['subject_identifier']
-    querystring_attrs = ['gender', 'first_name', 'initials', 'modified']
+    querystring_attrs = ['screening_identifier',
+                         'gender', 'first_name', 'initials', 'modified']
     subject_randomization_model = 'ambition_rando.subjectrandomization'
 
     @property
