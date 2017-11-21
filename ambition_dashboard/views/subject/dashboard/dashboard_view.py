@@ -16,6 +16,7 @@ from edc_navbar import NavbarViewMixin
 from edc_subject_dashboard.view_mixins import SubjectDashboardViewMixin
 
 from ....model_wrappers import CrfModelWrapper, SubjectVisitModelWrapper, SubjectConsentModelWrapper
+from ....model_wrappers import RequisitionModelWrapper
 
 
 class DashboardView(
@@ -35,7 +36,7 @@ class DashboardView(
     offstudy_model_wrapper_cls = SubjectOffstudyModelWrapper
     crf_model_wrapper_cls = CrfModelWrapper
     visit_model_wrapper_cls = SubjectVisitModelWrapper
-
+    requisition_model_wrapper_cls = RequisitionModelWrapper
     navbar_name = 'ambition_dashboard'
     navbar_selected_item = 'consented_subject'
 
