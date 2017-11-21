@@ -40,13 +40,13 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'django_crypto_fields.apps.AppConfig',
     'django_revision.apps.AppConfig',
-    'edc_appointment.apps.AppConfig',
     'edc_timepoint.apps.AppConfig',
     'edc_protocol.apps.AppConfig',
     'edc_device.apps.AppConfig',
     'edc_navbar.apps.AppConfig',
     'edc_identifier.apps.AppConfig',
     'edc_model_wrapper.apps.AppConfig',
+    'ambition_dashboard.apps.EdcAppointmentAppConfig',
     'ambition_dashboard.apps.AppConfig',
 ]
 

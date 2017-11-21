@@ -13,14 +13,14 @@ class TestModelWrappers(TestCase):
 
     model_wrapper_helper_cls = ModelWrapperTestHelper
 
+    @tag('1')
     def test_subject_consent(self):
-        subject_screening = SubjectScreening.objects.create(
+        SubjectScreening.objects.create(
             screening_identifier='1234')
         helper = self.model_wrapper_helper_cls(
             model_wrapper=SubjectConsentModelWrapper,
             app_label='ambition_dashboard',
-            subject_identifier='092-12345',
-            subject_screening=subject_screening)
+            subject_identifier='092-12345')
         helper.test(self)
 
     def test_subject_locator(self):
@@ -31,9 +31,18 @@ class TestModelWrappers(TestCase):
         helper.test(self)
 
     def test_appointment(self):
+
+        class MySubjectVisitModelWrapper(SubjectVisitModelWrapper):
+            model = 'ambition_dashboard.subjectvisit'
+
+        class MyAppointmentModelWrapper(AppointmentModelWrapper):
+            visit_model_wrapper_cls = MySubjectVisitModelWrapper
+
+        # note: AppointmentModelWrapper has not class attr model
         helper = self.model_wrapper_helper_cls(
-            model_wrapper=AppointmentModelWrapper,
+            model_wrapper=MyAppointmentModelWrapper,
             app_label='ambition_dashboard',
+            model='ambition_dashboard.appointment',
             subject_identifier='092-12345')
         helper.test(self)
 
@@ -48,13 +57,15 @@ class TestModelWrappers(TestCase):
         helper.test(self)
 
     def test_subject_requisition(self):
+        class MyRequisitionModelWrapper(RequisitionModelWrapper):
+            requisition_panel_name = 'vl'
         appointment = Appointment.objects.create(
             subject_identifier='092-12345')
         subject_visit = SubjectVisit.objects.create(
             subject_identifier='092-12345',
             appointment=appointment)
         helper = self.model_wrapper_helper_cls(
-            model_wrapper=RequisitionModelWrapper,
+            model_wrapper=MyRequisitionModelWrapper,
             app_label='ambition_dashboard',
             subject_visit=subject_visit)
         helper.test(self)

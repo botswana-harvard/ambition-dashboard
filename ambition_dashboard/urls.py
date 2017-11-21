@@ -88,7 +88,7 @@ if settings.APP_NAME == 'ambition_dashboard':
     urlpatterns += [
         path('edc_device/', include('edc_device.urls')),
         path('edc_protocol/', include('edc_protocol.urls')),
-        path(r'^admin/', ambition_subject_admin.urls),
+        path('admin/', ambition_subject_admin.urls),
         path('admininistration/', RedirectView.as_view(url='admin/'),
              name='administration_url'),
         path('login', LoginView.as_view(), name='login_url'),

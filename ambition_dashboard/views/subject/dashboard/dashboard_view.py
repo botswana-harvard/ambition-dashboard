@@ -12,8 +12,7 @@ from edc_dashboard.view_mixins import DashboardViewMixin as EdcDashboardViewMixi
 from edc_navbar import NavbarViewMixin
 from edc_subject_dashboard.view_mixins import SubjectDashboardViewMixin
 
-from ....model_wrappers import CrfModelWrapper, SubjectVisitModelWrapper
-from ....model_wrappers import RequisitionModelWrapper, SubjectConsentModelWrapper
+from ....model_wrappers import CrfModelWrapper, SubjectVisitModelWrapper, SubjectConsentModelWrapper
 
 
 class DashboardView(
@@ -30,7 +29,6 @@ class DashboardView(
     offstudy_model = 'ambition_subject.subjectoffstudy'
     consent_model_wrapper_cls = SubjectConsentModelWrapper
     crf_model_wrapper_cls = CrfModelWrapper
-    requisition_model_wrapper_cls = RequisitionModelWrapper
     visit_model_wrapper_cls = SubjectVisitModelWrapper
 
     navbar_name = 'ambition_dashboard'
