@@ -1,22 +1,21 @@
 from django.apps import apps as django_apps
+from django.conf import settings
+from django.core.exceptions import ObjectDoesNotExist
+from django.utils.safestring import mark_safe
 from edc_consent import ConsentModelWrapperMixin
 from edc_model_wrapper import ModelWrapper
 
 from .subject_consent_model_wrapper import SubjectConsentModelWrapper
-from django.utils.safestring import mark_safe
-from django.core.exceptions import ObjectDoesNotExist
 
 
 class SubjectScreeningModelWrapper(ConsentModelWrapperMixin, ModelWrapper):
 
-    model = 'ambition_subject.subjectscreening'
-    next_url_name = django_apps.get_app_config(
-        'ambition_dashboard').screening_listboard_url_name
-    next_url_attrs = ['screening_identifier']
-    querystring_attrs = ['gender']
-
-    consent_model_wrapper_cls = SubjectConsentModelWrapper
     consent_model = 'ambition_subject.subjectconsent'
+    consent_model_wrapper_cls = SubjectConsentModelWrapper
+    model = 'ambition_subject.subjectscreening'
+    next_url_attrs = ['screening_identifier']
+    next_url_name = settings.DASHBOARD_URL_NAMES.get('screening_listboard_url')
+    querystring_attrs = ['gender']
 
     @property
     def html_reason(self):

@@ -1,4 +1,5 @@
 from django.apps import apps as django_apps
+from django.conf import settings
 from django.core.exceptions import ObjectDoesNotExist
 from edc_model_wrapper import ModelWrapper
 
@@ -6,8 +7,7 @@ from edc_model_wrapper import ModelWrapper
 class SubjectConsentModelWrapper(ModelWrapper):
 
     model = 'ambition_subject.subjectconsent'
-    next_url_name = django_apps.get_app_config(
-        'ambition_dashboard').dashboard_url_name
+    next_url_name = settings.DASHBOARD_URL_NAMES.get('subject_dashboard_url')
     next_url_attrs = ['subject_identifier']
     querystring_attrs = [
         'screening_identifier', 'gender', 'first_name', 'initials', 'modified']

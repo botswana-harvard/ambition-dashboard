@@ -2,62 +2,10 @@
 
 {% load staticfiles %}
 
-{% block top_bar %}
-    {% include "ambition_dashboard/subject/dashboard/top_bar.html" %}
-{% endblock top_bar %}
-
-{% block side_bar %}
-
-    {% include "ambition_dashboard/subject/dashboard/sidebar.html" %}
-
-{% endblock side_bar%}
-
-{% block appointments %}
-
-	 {% block alert %}
-	 	{% if messages %}
-	        {% for message in messages %}
-	            {% if message.level == DEFAULT_MESSAGE_LEVELS.ERROR %}
-	            <div class="alert alert-danger alert-dismissable fade in">
-	            <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-	              <i class="fa fa-hand-stop-o fa-lg"></i> {{ message }}
-	            </div>
-	            {% endif %}
-	            {% if message.level == DEFAULT_MESSAGE_LEVELS.WARNING %}
-	            <div class="alert alert-warning alert-dismissable fade in">
-	            <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-	              <i class="fa fa-hand-stop-o fa-lg"></i> {{ message }}
-	            </div>
-	            {% endif %}
-	            {% if message.level == DEFAULT_MESSAGE_LEVELS.SUCCESS %}
-	            <div class="alert alert-success alert-dismissable fade in">
-	            <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-	              <i class="fa fa-thumbs-o-up fa-lg"></i> {{ message }}
-	            </div>
-	            {% endif %}
-	            {% if message.level == DEFAULT_MESSAGE_LEVELS.INFO %}
-	            <div class="alert alert-info alert-dismissable fade in">
-	            <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-	              <i class="fa fa-hand-stop-o fa-lg"></i> {{ message }}
-	            </div>
-	            {% endif %}
-	        {% endfor %}
-    	{% endif %}
-     {% endblock alert %}
-  	 {% include "edc_subject_dashboard/dashboard/appointments.html" %}
-
-{% endblock appointments %}
-
-{% block crfs %}
-	{% if crfs %}
-  		{% include "ambition_dashboard/subject/dashboard/crfs.html" %}
-    {% endif %}
-{% endblock crfs %}
-
-{% block requisitions %}
-  {% if requisitions %}
-  	{% include "edc_subject_dashboard/dashboard/requisitions.html" %}
-  {% endif %}    
-{% endblock requisitions %}
-
 {% block locator_information %}{% endblock locator_information %}
+
+{% block top_bar %}
+
+    {% include "ambition_dashboard/subject/dashboard/top_bar.html" %}
+
+{% endblock top_bar %}

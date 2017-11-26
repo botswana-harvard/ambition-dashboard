@@ -1,11 +1,8 @@
-from edc_navbar import NavbarItem, site_navbars, Navbar
 from django.conf import settings
+from edc_navbar import NavbarItem, site_navbars, Navbar
 
 
-if settings.APP_NAME == 'ambition_dashboard':
-    url_namespace = None
-else:
-    url_namespace = 'ambition_dashboard'
+no_url_namespace = True if settings.APP_NAME == 'ambition_dashboard' else False
 
 ambition_dashboard = Navbar(name='ambition_dashboard')
 
@@ -15,8 +12,8 @@ ambition_dashboard.append_item(
         title='Screening',
         label='screening',
         fa_icon='fa-user-plus',
-        url_name='screening_listboard_url',
-        url_namespace=url_namespace))
+        url_name=settings.DASHBOARD_URL_NAMES['screening_listboard_url'],
+        no_url_namespace=no_url_namespace))
 
 ambition_dashboard.append_item(
     NavbarItem(
@@ -24,7 +21,7 @@ ambition_dashboard.append_item(
         title='Subjects',
         label='subjects',
         fa_icon='fa-user-circle-o',
-        url_name='listboard_url',
-        url_namespace=url_namespace))
+        url_name=settings.DASHBOARD_URL_NAMES['subject_listboard_url'],
+        no_url_namespace=no_url_namespace))
 
 site_navbars.register(ambition_dashboard)

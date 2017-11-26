@@ -34,6 +34,8 @@ class SubjectConsent(BaseUuidModel):
 
     subject_identifier = models.CharField(max_length=25)
 
+    screening_identifier = models.CharField(max_length=25)
+
     gender = models.CharField(max_length=25, default='M')
 
     initials = models.CharField(max_length=25, default='XX')

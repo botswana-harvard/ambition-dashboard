@@ -3,36 +3,27 @@ import re
 from django.contrib.auth.decorators import login_required
 from django.db.models import Q
 from django.utils.decorators import method_decorator
-from edc_base.utils import get_utcnow
 from edc_base.view_mixins import EdcBaseViewMixin
-from edc_constants.constants import MALE
-from edc_dashboard.view_mixins import AppConfigViewMixin, ListboardFilterViewMixin
+from edc_dashboard.view_mixins import ListboardFilterViewMixin
 from edc_dashboard.views import ListboardView
 from edc_navbar import NavbarViewMixin
 
 from ....model_wrappers import SubjectConsentModelWrapper
 
 
-class ListboardView(EdcBaseViewMixin, NavbarViewMixin, AppConfigViewMixin,
+class ListboardView(EdcBaseViewMixin, NavbarViewMixin,
                     ListboardFilterViewMixin, ListboardView):
 
     model = 'ambition_subject.subjectconsent'
     model_wrapper_cls = SubjectConsentModelWrapper
-    app_config_name = 'ambition_dashboard'
-
+    listboard_url = 'subject_listboard_url'
+    listboard_template = 'subject_listboard_template'
     navbar_name = 'ambition_dashboard'
     navbar_selected_item = 'consented_subject'
 
     @method_decorator(login_required)
     def dispatch(self, *args, **kwargs):
         return super().dispatch(*args, **kwargs)
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context.update(
-            MALE=MALE,
-            reference_datetime=get_utcnow())
-        return context
 
     def get_queryset_filter_options(self, request, *args, **kwargs):
         options = super().get_queryset_filter_options(request, *args, **kwargs)

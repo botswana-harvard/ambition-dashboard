@@ -9,11 +9,14 @@ from ..model_wrappers import SubjectVisitModelWrapper
 from .models import SubjectScreening, Appointment, SubjectVisit
 
 
+class MyModelWrapperTestHelper(ModelWrapperTestHelper):
+    dashboard_url = '/subject_dashboard/'
+
+
 class TestModelWrappers(TestCase):
 
-    model_wrapper_helper_cls = ModelWrapperTestHelper
+    model_wrapper_helper_cls = MyModelWrapperTestHelper
 
-    @tag('1')
     def test_subject_consent(self):
         SubjectScreening.objects.create(
             screening_identifier='1234')

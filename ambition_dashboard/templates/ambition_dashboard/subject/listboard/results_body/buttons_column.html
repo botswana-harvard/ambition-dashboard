@@ -11,7 +11,7 @@
     </a>
     {% if result.id %}
          <a class="btn btn-success btn-sm" role="button"   
-        title="Go to subject's dashboard" href="/subject/dashboard/{{result.subject_identifier}}/">
+        title="Go to subject's dashboard" href="{% url subject_dashboard_url result.subject_identifier %}">
         <i class="fa fa-user-circle-o fa-sm"></i> Dashboard</a>
     {% else %}
          <a title="Consent to participate"

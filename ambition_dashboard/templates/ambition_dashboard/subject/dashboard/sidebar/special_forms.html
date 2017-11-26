@@ -1,11 +1,4 @@
-{% extends 'ambition_dashboard/subject/dashboard/sidebar/base_sidebar.html' %}
-
-{% load tz %}
 {% load edc_base_extras %}
-
-
-{% block special_forms %}
-
 <div class="table-responsive small text-default">
     <table class="table table-condensed">
         <thead></thead>
@@ -27,7 +20,7 @@
 	        </tr>
 	        <tr>
 		        <td class="warning" >
-		        	<a class="btn btn-warning" href="{% url 'ambition_dashboard:unscheduled_appointment_url' subject_identifier %}">
+		        	<a class="btn btn-warning" href="{% url 'edc_appointment:unscheduled_appointment_url' subject_identifier %}">
 		        		<i class="fa fa-plus fa-fw"></i>
 			         </a>
 				</td>
@@ -35,37 +28,6 @@
 		            <h6>Unscheduled Appointment</span></h6> 
 		        </td>
 	        </tr>
-	        {% if offstudy_required %}
-	            <tr>
-	                {% with wrapped=subject_offstudy %}
-	                    {% include 'edc_dashboard/controls/change_button_as_column.html' %}
-	                {% endwith %}
-	            </tr>
-	        {% endif %}
         </tbody>
     </table>
 </div>
-                  
-{% endblock special_forms %}
-
-{% block demographics %}   
-
-    {% include 'ambition_dashboard/subject/dashboard/sidebar/demographics.html' %}
-
-{% endblock demographics %}
-
-{% block consent_history %}
-
-	<div class="list-group">
-	  {% if not consents %}
-	    <a class="list-group-item" href="#">Never consented</a>
-	  {% endif %}
-	  {% for obj in consents %}
-	       <a class="list-group-item" href="#">
-	            {{ obj.consent_datetime|date:"Y-m-d" }} Version {{ obj.version }}
-	       </a>
-	  {% endfor %}
-	</div>
-
-{% endblock consent_history %}
-

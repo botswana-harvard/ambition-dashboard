@@ -58,6 +58,9 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'edc_dashboard.middleware.DashboardMiddleware',
+    'edc_subject_dashboard.middleware.DashboardMiddleware',
+    # 'edc_lab_dashboard.middleware.DashboardMiddleware',
 ]
 
 ROOT_URLCONF = 'ambition_dashboard.urls'
@@ -131,6 +134,20 @@ USE_TZ = True
 STATIC_URL = '/static/'
 KEY_PATH = os.path.join(BASE_DIR, 'crypto_fields')
 GIT_DIR = BASE_DIR
+
+DASHBOARD_URL_NAMES = {
+    'subject_listboard_url': 'ambition_dashboard:subject_listboard_url',
+    'screening_listboard_url': 'ambition_dashboard:screening_listboard_url',
+    'subject_dashboard_url': 'ambition_dashboard:subject_dashboard_url',
+}
+
+DASHBOARD_BASE_TEMPLATES = {
+    'listboard_base_template': 'ambition/base.html',
+    'dashboard_base_template': 'ambition/base.html',
+    'screening_listboard_template': 'ambition_dashboard/screening/listboard.html',
+    'subject_listboard_template': 'ambition_dashboard/subject/listboard.html',
+    'subject_dashboard_template': 'ambition_dashboard/subject/dashboard.html',
+}
 
 if 'test' in sys.argv:
 
