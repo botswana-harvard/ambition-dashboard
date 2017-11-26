@@ -1,5 +1,5 @@
 from django.conf import settings
-from edc_visit_tracking import SubjectVisitModelWrapper as BaseSubjectVisitModelWrapper
+from edc_subject_dashboard import SubjectVisitModelWrapper as BaseSubjectVisitModelWrapper
 
 
 class SubjectVisitModelWrapper(BaseSubjectVisitModelWrapper):
