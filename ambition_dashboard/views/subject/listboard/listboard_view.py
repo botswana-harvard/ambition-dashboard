@@ -4,7 +4,7 @@ from django.contrib.auth.decorators import login_required
 from django.db.models import Q
 from django.utils.decorators import method_decorator
 from edc_base.view_mixins import EdcBaseViewMixin
-from edc_dashboard.view_mixins import ListboardFilterViewMixin
+from edc_dashboard.view_mixins import ListboardFilterViewMixin, SearchFormViewMixin
 from edc_dashboard.views import ListboardView
 from edc_navbar import NavbarViewMixin
 
@@ -12,14 +12,15 @@ from ....model_wrappers import SubjectConsentModelWrapper
 
 
 class ListboardView(EdcBaseViewMixin, NavbarViewMixin,
-                    ListboardFilterViewMixin, ListboardView):
+                    ListboardFilterViewMixin, SearchFormViewMixin, ListboardView):
 
+    listboard_template = 'subject_listboard_template'
+    listboard_url = 'subject_listboard_url'
     model = 'ambition_subject.subjectconsent'
     model_wrapper_cls = SubjectConsentModelWrapper
-    listboard_url = 'subject_listboard_url'
-    listboard_template = 'subject_listboard_template'
     navbar_name = 'ambition_dashboard'
     navbar_selected_item = 'consented_subject'
+    search_form_url = 'subject_listboard_url'
 
     @method_decorator(login_required)
     def dispatch(self, *args, **kwargs):

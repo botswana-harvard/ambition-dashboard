@@ -1,11 +1,10 @@
 import re
 
-from django.apps import apps as django_apps
 from django.contrib.auth.decorators import login_required
 from django.db.models import Q
 from django.utils.decorators import method_decorator
 from edc_base.view_mixins import EdcBaseViewMixin
-from edc_dashboard.view_mixins import ListboardFilterViewMixin
+from edc_dashboard.view_mixins import ListboardFilterViewMixin, SearchFormViewMixin
 from edc_dashboard.views import ListboardView
 from edc_navbar import NavbarViewMixin
 
@@ -14,18 +13,18 @@ from .filters import ListboardViewFilters
 
 
 class ListBoardView(NavbarViewMixin, EdcBaseViewMixin,
-                    ListboardFilterViewMixin, ListboardView):
+                    ListboardFilterViewMixin, SearchFormViewMixin, ListboardView):
 
+    listboard_template = 'screening_listboard_template'
+    listboard_url = 'screening_listboard_url'
+    listboard_view_filters = ListboardViewFilters()
     model = 'ambition_subject.subjectscreening'
     model_wrapper_cls = SubjectScreeningModelWrapper
-    listboard_url = 'screening_listboard_url'
-    listboard_template = 'screening_listboard_template'
-    paginate_by = 10
-    ordering = '-modified'
-    listboard_view_filters = ListboardViewFilters()
-
     navbar_name = 'ambition_dashboard'
     navbar_selected_item = 'screened_subject'
+    ordering = '-modified'
+    paginate_by = 10
+    search_form_url = 'screening_listboard_url'
 
     @method_decorator(login_required)
     def dispatch(self, *args, **kwargs):

@@ -3,7 +3,8 @@
 {% load staticfiles %}
 {% load crispy_forms_tags %}
 
-    <td style="white-space: nowrap">
+<td style="white-space: nowrap">
+    <div class="btn-group">
     <a title="Edit subject's screening form" role="button" 
        class="btn btn-default btn-sm"
            href="{{ result.href }}">
@@ -20,4 +21,5 @@
              Consent (v{{ result.version }})
          </a>
     {% endif %}
-    </td>
+    </div>
+</td>

@@ -1,52 +1,33 @@
-{% extends listboard_base_template %}
+{% extends "edc_dashboard/listboard.html" %}
+             
+{% block listboard_panel_color %}panel-info{% endblock listboard_panel_color %}
 
-{% load tz %}
-{% load staticfiles %}
-{% load crispy_forms_tags %}
-{% load edc_base_extras %}
+{% block listboard_panel_icon %}fa fa-user-plus fa-2x{% endblock listboard_panel_icon %}
+             
+{% block listboard_panel %}
+    {% include 'ambition_dashboard/screening/listboard/add_subject_screening_button.html' %}
+{% endblock listboard_panel %}
 
-{% block main %}
-<div class="container">
-    <div class="col-md-12">
-        <div class="panel-group">
-            <div class="panel panel-info">
-                <div class="panel-heading">
+{% block listboard_table_header %}
+    <!-- begin results header -->
+    <th>#</th>
+    <th></th>
+    <th>Eligible?</th>
+    <th>Screening Identifier</th>
+    <th>Subject Identifier</th>
+    <th>Age</th>
+    <th>Modified</th>
+    <th>Host</th>
+    <!-- end results header -->
+{% endblock listboard_table_header %}
 
-                    <i class="fa fa-user-plus fa-2x"></i></i>
-                        <span class="pull-right">{% include 'edc_dashboard/search_form.html' %}</span>
-                    
-                    {% include 'ambition_dashboard/screening/listboard/add_subject_screening_button.html' %}
-
-                </div>
-                <div class="table table-responsive">
-                    <table class="table table-condensed table-hover small">
-                    <thead>
-
-                    {% include 'ambition_dashboard/screening/listboard/results_header.html' %}
-
-			         </thead>
-			         <tbody>
-
-                    {% include 'ambition_dashboard/screening/listboard/results_body.html' %}
-
-			         </tbody>
-			         </table>
-                    <!-- begin spacer rows -->
-
-                    <table>
-                    <tr><td>&nbsp;</td></tr>
-                    <tr><td>&nbsp;</td></tr>
-                    <tr><td>&nbsp;</td></tr>
-                    <tr><td>&nbsp;</td></tr>
-                    <tr><td>&nbsp;</td></tr>
-                    </table>
-                    <!-- end spacer rows -->
-                </div>
-                {% include 'edc_dashboard/paginator.html' %}
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
-
-{% endblock main %}
+{% block listboard_table_body %}
+    <!-- begin results body -->
+    {% for result in results %}
+        <tr><td>{{ forloop.counter }}</td>        
+        {% include 'ambition_dashboard/screening/listboard/buttons_column.html' %}
+        {% include 'ambition_dashboard/screening/listboard/columns.html' %}
+        </tr>                       
+    {% endfor %}
+    <!-- begin results body -->
+{% endblock listboard_table_body %}

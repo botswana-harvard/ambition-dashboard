@@ -1,50 +1,31 @@
-{% extends listboard_base_template %}
+{% extends "edc_dashboard/listboard.html" %}
 
-{% load tz %}
-{% load staticfiles %}
-{% load crispy_forms_tags %}
-{% load edc_base_extras %}
+{% block listboard_panel_color %}panel-success{% endblock listboard_panel_color %}
 
-{% block main %}
-<div class="container">
-    <div class="col-md-12">
-        <div class="panel-group">
-            <div class="panel panel-success">
-                <div class="panel-heading">
+{% block listboard_panel_icon %}fa fa-user-circle-o fa-2x{% endblock listboard_panel_icon %}
 
-                    <i class="fa fa-user-circle-o fa-2x"></i></i>
-                        <span class="pull-right">{% include 'edc_dashboard/search_form.html' %}</span>
+{% block listboard_panel %}{% endblock listboard_panel %}
 
-                </div>
-                <div class="table table-responsive">
-                    <table class="table table-condensed table-hover small">
-                    <thead>
+{% block listboard_table_header %}
+    <!-- begin results header -->
+    <th>#</th>
+    <th></th>
+    <th>Identifier</th>
+    <th>Subject</th>
+    <th>Age / Born</th>
+    <th>Consented</th>
+    <th>Modified</th>
+    <th>Host</th>
+    <!-- end results header -->
+{% endblock listboard_table_header %}
 
-                    {% include 'ambition_dashboard/subject/listboard/results_header.html' %}
-
-			         </thead>
-			         <tbody>
-
-                    {% include 'ambition_dashboard/subject/listboard/results_body.html' %}
-
-			         </tbody>
-			         </table>
-                    <!-- begin spacer rows -->
-
-                    <table>
-                    <tr><td>&nbsp;</td></tr>
-                    <tr><td>&nbsp;</td></tr>
-                    <tr><td>&nbsp;</td></tr>
-                    <tr><td>&nbsp;</td></tr>
-                    <tr><td>&nbsp;</td></tr>
-                    </table>
-                    <!-- end spacer rows -->
-                </div>
-                {% include 'edc_dashboard/paginator.html' %}
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
-
-{% endblock main %}
+{% block listboard_table_body %}
+    <!-- begin results body -->
+    {% for result in results %}
+        <tr> <td>{{ forloop.counter }}</td>
+        {% include 'ambition_dashboard/subject/listboard/buttons_column.html' %}
+        {% include 'ambition_dashboard/subject/listboard/columns.html' %}
+        </tr>                       
+    {% endfor %}
+    <!-- begin results body -->
+{% endblock listboard_table_body %}

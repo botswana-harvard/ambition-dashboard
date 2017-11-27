@@ -2,7 +2,8 @@
 {% load edc_base_extras %}
 {% load staticfiles %}
 
-    <td style="white-space: nowrap">
+ <td style="white-space: nowrap">
+    <div class="btn-group">
     <a title="Edit subject's screening form" role="button" 
        class="btn btn-default btn-sm"
            href="{{ result.href }}">
@@ -21,4 +22,5 @@
              Consent (v{{ subject_screening.consent.version }})
          </a>
     {% endif %}
-    </td>
+ </div>
+ </td>
