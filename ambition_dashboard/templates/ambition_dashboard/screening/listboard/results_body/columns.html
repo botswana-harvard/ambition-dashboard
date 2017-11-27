@@ -8,6 +8,6 @@
 <td>{{ result.screening_identifier }} </td>
 <td nowrap>{% if "092" in result.consent.subject_identifier %}{{ result.consent.subject_identifier }}{% endif %}</td>
 <td nowrap>{{ result.age_in_years }} yrs</td>
-<td nowrap>{{ result.object.modified|date:"Y-m-d H:i" }}</td>  
+<td nowrap>{{ result.object.modified|date:"SHORT_DATETIME_FORMAT" }}</td>  
 <td nowrap>{{ result.hostname_created }}</td>
 <!--  end columns  -->
