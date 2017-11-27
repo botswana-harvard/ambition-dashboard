@@ -16,7 +16,7 @@
    {% endif %}
    {{ result.first_name }} {{ result.initials }}
 </td>
-<td>{% age_in_years result.object.dob %}yrs {{ result.object.dob|date:"Y-m-d" }}</td>
+<td>{% age_in_years result.object.dob %}yrs {{ result.object.dob|date:"SHORT_DATE_FORMAT" }}</td>
 <td>{{ result.object.consent_datetime|date:"DATE_FORMAT" }}</td>  
 <td>{{ result.object.modified|date:"DATETIME_FORMAT" }}</td>
 <td>{{ result.hostname_created }}</td>
