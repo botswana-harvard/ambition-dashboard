@@ -22,10 +22,10 @@ class ListboardViewFilters(ListboardViewFilters):
         label='Consented',
         position=20,
         lookup={'eligible': True,
-                'subjectconsent__isnull': False})
+                'consented': True})
 
     not_consented = ListboardFilter(
         label='Not consented',
         position=21,
         lookup={'eligible': True,
-                'subjectconsent__isnull': True})
+                'consented': False})
