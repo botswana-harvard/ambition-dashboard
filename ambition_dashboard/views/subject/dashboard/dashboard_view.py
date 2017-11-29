@@ -1,4 +1,5 @@
 from ambition_dashboard.model_wrappers import AppointmentModelWrapper
+from ambition_rando.models import RandomizationList
 from ambition_subject.eligibility import EarlyWithdrawalEvaluator
 from django.apps import apps as django_apps
 from django.contrib.auth.decorators import login_required
@@ -41,8 +42,17 @@ class DashboardView(
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context.update(
-            offstudy_required=self.offstudy_required)
+            offstudy_required=self.offstudy_required,
+            demographics_listgroup=[
+                ('fa-random', self.randomization.short_label)])
         return context
+
+    @property
+    def randomization(self):
+        """Returns a model instance.
+        """
+        return RandomizationList.objects.get(
+            subject_identifier=self.subject_identifier)
 
     def empty_appointment(self, **kwargs):
         return Appointment()

@@ -4,22 +4,22 @@
 
  <td style="white-space: nowrap">
     <div class="btn-group">
-    <a title="Edit subject's screening form" role="button" 
+    <a id="subjectscreening_change_{{ result.screening_identifier }}" title="Edit subject's screening form" role="button" 
        class="btn btn-default btn-sm"
            href="{{ result.href }}">
         <i class="fa fa-pencil fa-sm"></i>
     </a>
     {% if not result.eligible %}
-        Not Eligible
+        $nbsp;Not Eligible$nbsp;
     {% elif result.consent %}
-         <a class="btn btn-success btn-sm" role="button"   
+         <a id="subject_dashboard_{{ result.consent.subject_identifier }}" class="btn btn-success btn-sm" role="button"   
         title="Go to subject's dashboard" href="{% url subject_dashboard_url result.consent.subject_identifier%}">
         <i class="fa fa-user-circle-o fa-sm"></i> Dashboard</a>
     {% else %}
-         <a title="Consent to participate"
+         <a id="subjectconsent_add_{{ result.screening_identifier }}" title="Consent to participate"
             class="btn btn-warning btn-sm"
                 href="{{ result.consent.href }}">
-             Consent (v{{ subject_screening.consent.version }})
+             Consent (v{{ result.consent.version }})
          </a>
     {% endif %}
  </div>
