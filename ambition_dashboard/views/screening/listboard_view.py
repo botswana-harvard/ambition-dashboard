@@ -17,6 +17,9 @@ class ListBoardView(NavbarViewMixin, EdcBaseViewMixin,
 
     listboard_template = 'screening_listboard_template'
     listboard_url = 'screening_listboard_url'
+    listboard_panel_style = 'info'
+    listboard_fa_icon = "fa-user-plus"
+
     listboard_view_filters = ListboardViewFilters()
     model = 'ambition_subject.subjectscreening'
     model_wrapper_cls = SubjectScreeningModelWrapper

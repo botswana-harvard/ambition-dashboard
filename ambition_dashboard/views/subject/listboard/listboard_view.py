@@ -16,6 +16,9 @@ class ListboardView(EdcBaseViewMixin, NavbarViewMixin,
 
     listboard_template = 'subject_listboard_template'
     listboard_url = 'subject_listboard_url'
+    listboard_panel_style = 'success'
+    listboard_fa_icon = "fa-user-circle-o"
+
     model = 'ambition_subject.subjectconsent'
     model_wrapper_cls = SubjectConsentModelWrapper
     navbar_name = 'ambition_dashboard'

@@ -1,12 +1,15 @@
 {% extends "edc_dashboard/listboard.html" %}
-             
-{% block listboard_panel_color %}panel-info{% endblock listboard_panel_color %}
+{% load admin_urls %}
+{% load edc_base_extras %}
 
-{% block listboard_panel_icon %}fa fa-user-plus fa-2x{% endblock listboard_panel_icon %}
              
 {% block listboard_panel %}
-    {% include 'ambition_dashboard/screening/listboard/add_subject_screening_button.html' %}
+    <a id="subjectscreening_add" title="add screening" class="btn btn-sm btn-default" role="button" 
+        href="{{ subject_screening_add_url }}?next={{ screening_listboard_url }}">
+            <i class="fa fa-plus fa-sm"></i> Add Subject Screening
+    </a>
 {% endblock listboard_panel %}
+
 
 {% block listboard_table_header %}
     <!-- begin results header -->
@@ -21,13 +24,40 @@
     <!-- end results header -->
 {% endblock listboard_table_header %}
 
-{% block listboard_table_body %}
-    <!-- begin results body -->
-    {% for result in results %}
-        <tr><td>{{ forloop.counter }}</td>        
-        {% include 'ambition_dashboard/screening/listboard/buttons_column.html' %}
-        {% include 'ambition_dashboard/screening/listboard/columns.html' %}
-        </tr>                       
-    {% endfor %}
-    <!-- begin results body -->
-{% endblock listboard_table_body %}
+
+{% block listboard_table_button_column %}
+    <td style="white-space: nowrap">
+    <div class="btn-group">
+    <a id="subjectscreening_change_{{ result.screening_identifier }}" title="Edit subject's screening form" role="button" 
+       class="btn btn-default btn-sm"
+           href="{{ result.href }}">
+        <i class="fa fa-pencil fa-sm"></i>
+    </a>
+    {% if not result.eligible %}
+        $nbsp;Not Eligible$nbsp;
+    {% elif result.consent %}
+         <a id="subject_dashboard_{{ result.consent.subject_identifier }}" class="btn btn-success btn-sm" role="button"   
+        title="Go to subject's dashboard" href="{% url subject_dashboard_url result.consent.subject_identifier%}">
+        <i class="fa fa-user-circle-o fa-sm"></i> Dashboard</a>
+    {% else %}
+         <a id="subjectconsent_add_{{ result.screening_identifier }}" title="Consent to participate"
+            class="btn btn-warning btn-sm"
+                href="{{ result.consent.href }}">
+             Consent (v{{ result.consent.version }})
+         </a>
+    {% endif %}
+    </div>
+    </td>
+{% endblock listboard_table_button_column %}
+
+
+{% block listboard_table_columns %}
+
+    <td>{{ result.html_reason|wordwrap:20 }}</td>
+    <td>{{ result.screening_identifier }} </td>
+    <td nowrap>{% if "092" in result.consent.subject_identifier %}{{ result.consent.subject_identifier }}{% endif %}</td>
+    <td nowrap>{{ result.age_in_years }} yrs</td>
+    <td nowrap>{{ result.object.modified|date:"SHORT_DATETIME_FORMAT" }}</td>  
+    <td nowrap>{{ result.hostname_created }}</td>
+
+{% endblock listboard_table_columns %}
