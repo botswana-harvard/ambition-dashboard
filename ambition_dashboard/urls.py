@@ -1,10 +1,9 @@
 from django.conf import settings
 from django.urls.conf import path, include
-from edc_subject_dashboard import UrlConfig
+from edc_dashboard import UrlConfig
 
 from .patterns import subject_identifier, screening_identifier
 from .views import SubjectListboardView, SubjectDashboardView, ScreeningListboardView
-from pprint import pprint
 
 app_name = 'ambition_dashboard'
 
