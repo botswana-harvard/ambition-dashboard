@@ -10,7 +10,6 @@ from edc_base.view_mixins import EdcBaseViewMixin
 from edc_dashboard.views import DashboardView as BaseDashboardView
 from edc_navbar import NavbarViewMixin
 from edc_subject_dashboard.view_mixins import SubjectDashboardViewMixin
-# from edc_visit_schedule.site_visit_schedules import site_visit_schedules
 
 from ....model_wrappers import CrfModelWrapper, SubjectVisitModelWrapper
 from ....model_wrappers import RequisitionModelWrapper, SubjectConsentModelWrapper
@@ -95,7 +94,6 @@ class DashboardView(
 
     @property
     def offstudy_required(self):
-        #         if self.appointment:
         offstudy_exists = False
         if(self.model_cls_exists(model=self.study_termination_model)
            or self.model_cls_exists(model=self.death_report_model)
