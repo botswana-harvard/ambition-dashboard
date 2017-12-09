@@ -2,7 +2,9 @@ from django.core.exceptions import ObjectDoesNotExist
 from ambition_dashboard.model_wrappers import AppointmentModelWrapper
 from ambition_rando.models import RandomizationList
 from ambition_subject.eligibility import EarlyWithdrawalEvaluator
+from ambition_subject.verify_subject_locator import verify_subject_locator
 from django.apps import apps as django_apps
+from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
 from edc_appointment.models import Appointment
@@ -44,10 +46,14 @@ class DashboardView(
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
+        message = verify_subject_locator(
+            subject_identifier=self.subject_identifier)
         context.update(
             offstudy_required=self.offstudy_required,
             demographics_listgroup=[
                 ('fa-random', self.randomization.short_label)])
+        if message:
+            messages.warning(self.request, message)
         return context
 
     @property
