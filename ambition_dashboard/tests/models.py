@@ -36,7 +36,7 @@ class BloodResultModel(models.Model):
     platelets = models.IntegerField(
         null=True,)
 
-    absolute_neutrophil = models.DecimalField(
+    neutrophil = models.DecimalField(
         decimal_places=2,
         max_digits=4,
         null=True,)

@@ -1,3 +1,4 @@
+from ambition_visit_schedule import DAY1
 from django.test import TestCase
 from edc_base.utils import get_utcnow
 
@@ -7,18 +8,17 @@ from .models import DeathReport, SubjectOffstudy, StudyTerminationConclusion
 
 
 class TestOffStudyRequired(TestCase):
-
     def setUp(self):
         self.appointment = Appointment.objects.create(
             subject_identifier='12345',
-            visit_code='1000',
+            visit_code=DAY1,
             appt_datetime=get_utcnow())
         self.subject_visit = SubjectVisit.objects.create(
             appointment=self.appointment,
             subject_identifier='11111',
-            visit_code='1000')
+            visit_code=DAY1)
         self.blood_result_model = BloodResultModel.objects.create(
-            subject_visit=self.subject_visit, alt=120, absolute_neutrophil=0.8,
+            subject_visit=self.subject_visit, alt=120, neutrophil=0.8,
             platelets=60)
         self.study_termination_model = StudyTerminationConclusion.objects.create(
             subject_identifier='11111')
@@ -39,7 +39,7 @@ class TestOffStudyRequired(TestCase):
         dashboard_view = SubjectDashboardView()
         dashboard_view.subject_identifier = '12345'
         self.blood_result_model = BloodResultModel.objects.create(
-            subject_visit=self.subject_visit, alt=300, absolute_neutrophil=0.1,
+            subject_visit=self.subject_visit, alt=300, neutrophil=0.1,
             platelets=60)
         dashboard_view.blood_result_model = BloodResultModel._meta.label_lower
         self.assertFalse(dashboard_view.is_eligible)

@@ -10,6 +10,7 @@ from edc_navbar import NavbarViewMixin
 
 from ...model_wrappers import SubjectScreeningModelWrapper
 from .filters import ListboardViewFilters
+from edc_constants.constants import ABNORMAL
 
 
 class ListBoardView(NavbarViewMixin, EdcBaseViewMixin,
@@ -21,7 +22,7 @@ class ListBoardView(NavbarViewMixin, EdcBaseViewMixin,
     listboard_fa_icon = "fa-user-plus"
 
     listboard_view_filters = ListboardViewFilters()
-    model = 'ambition_subject.subjectscreening'
+    model = 'ambition_screening.subjectscreening'
     model_wrapper_cls = SubjectScreeningModelWrapper
     navbar_name = 'ambition_dashboard'
     navbar_selected_item = 'screened_subject'
@@ -36,7 +37,8 @@ class ListBoardView(NavbarViewMixin, EdcBaseViewMixin,
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context.update(
-            subject_screening_add_url=self.model_cls().get_absolute_url())
+            subject_screening_add_url=self.model_cls().get_absolute_url(),
+            ABNORMAL=ABNORMAL)
         return context
 
     def get_queryset_filter_options(self, request, *args, **kwargs):

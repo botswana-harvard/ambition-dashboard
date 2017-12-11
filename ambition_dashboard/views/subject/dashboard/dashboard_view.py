@@ -1,11 +1,11 @@
-from django.core.exceptions import ObjectDoesNotExist
 from ambition_dashboard.model_wrappers import AppointmentModelWrapper
 from ambition_rando.models import RandomizationList
-from ambition_subject.eligibility import EarlyWithdrawalEvaluator
-from ambition_subject.verify_subject_locator import verify_subject_locator
+from ambition_screening import EarlyWithdrawalEvaluator
+from ambition_visit_schedule import DAY1
 from django.apps import apps as django_apps
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
+from django.core.exceptions import ObjectDoesNotExist
 from django.utils.decorators import method_decorator
 from edc_appointment.models import Appointment
 from edc_base.view_mixins import EdcBaseViewMixin
@@ -46,14 +46,10 @@ class DashboardView(
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        message = verify_subject_locator(
-            subject_identifier=self.subject_identifier)
+        self.check_offstudy_required()
         context.update(
-            offstudy_required=self.offstudy_required,
             demographics_listgroup=[
                 ('fa-random', self.randomization.short_label)])
-        if message:
-            messages.warning(self.request, message)
         return context
 
     @property
@@ -72,38 +68,25 @@ class DashboardView(
             return True
         return False
 
-    def model_cls_exists(self, model=None):
-        model_cls = django_apps.get_model(model)
+    def check_offstudy_required(self):
+        """Offstudy form is required if study_termination or
+        death_report exist and the off study form has not
+        yet been completed.
+        """
+        offstudy_required = False
+        model_cls = django_apps.get_model(self.subject_offstudy_model)
         try:
-            model_obj = model_cls.objects.get(
+            model_cls.objects.get(
                 subject_identifier=self.subject_identifier)
         except ObjectDoesNotExist:
-            model_obj = False
-        return model_obj
-
-    @property
-    def is_eligible(self):
-        model_cls = django_apps.get_model(self.blood_result_model)
-        try:
-            blood_result = model_cls.objects.get(
-                subject_visit__subject_identifier=self.subject_identifier,
-                subject_visit__visit_code='1000')
-        except ObjectDoesNotExist:
-            eligible = False
+            pass
         else:
-            obj = EarlyWithdrawalEvaluator(
-                alt=blood_result.alt,
-                pmn=blood_result.absolute_neutrophil,
-                platlets=blood_result.platelets)
-            eligible = obj.eligible
-        return eligible
-
-    @property
-    def offstudy_required(self):
-        offstudy_exists = False
-        if(self.model_cls_exists(model=self.study_termination_model)
-           or self.model_cls_exists(model=self.death_report_model)
-           or self.is_eligible):
-            offstudy_exists = self.model_cls_exists(
-                model=self.subject_offstudy_model)
-        return not offstudy_exists
+            for model in [self.study_termination_model, self.death_report_model]:
+                model_cls = django_apps.get_model(model)
+                try:
+                    model_cls.objects.get(
+                        subject_identifier=self.subject_identifier)
+                except ObjectDoesNotExist:
+                    offstudy_required = True
+                    break
+        return offstudy_required

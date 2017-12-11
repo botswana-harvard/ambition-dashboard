@@ -23,6 +23,7 @@ def eligibility_button(subject_screening_model_wrapper):
     tooltip = None
     if not obj.eligible:
         comment = obj.reasons_ineligible.split(',')
+    comment = list(set(comment))
     comment.sort()
     return dict(eligible=obj.eligible, comment=comment, tooltip=tooltip)
 
