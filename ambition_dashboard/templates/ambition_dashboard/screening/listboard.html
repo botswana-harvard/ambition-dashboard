@@ -1,7 +1,7 @@
 {% extends "edc_dashboard/listboard.html" %}
 {% load admin_urls %}
 {% load edc_base_extras %}
-
+{% load ambition_dashboard_extras %}
              
 {% block listboard_panel %}
     <a id="subjectscreening_add" title="add screening" class="btn btn-sm btn-default" role="button" 
@@ -15,7 +15,6 @@
     <!-- begin results header -->
     <th>#</th>
     <th></th>
-    <th>Eligible?</th>
     <th>Screening Identifier</th>
     <th>Subject Identifier</th>
     <th>Age</th>
@@ -28,23 +27,14 @@
 {% block listboard_table_button_column %}
     <td style="white-space: nowrap">
     <div class="btn-group">
-    <a id="subjectscreening_change_{{ result.screening_identifier }}" title="Edit subject's screening form" role="button" 
-       class="btn btn-default btn-sm"
-           href="{{ result.href }}">
-        <i class="fa fa-pencil fa-sm"></i>
-    </a>
-    {% if not result.eligible %}
-        Not Eligible.
-    {% elif result.consent %}
-         <a id="subject_dashboard_{{ result.consent.subject_identifier }}" class="btn btn-success btn-sm" role="button"   
-        title="Go to subject's dashboard" href="{% url subject_dashboard_url result.consent.subject_identifier%}">
-        <i class="fa fa-user-circle-o fa-sm"></i> Dashboard</a>
-    {% else %}
-         <a id="subjectconsent_add_{{ result.screening_identifier }}" title="Consent to participate"
-            class="btn btn-warning btn-sm"
-                href="{{ result.consent.href }}">
-             Consent (v{{ result.consent.version }})
-         </a>
+    {% screening_button result %}
+    {% eligibility_button result %}
+    {% if result.eligible %}
+        {% if result.consent %}
+            {% dashboard_button result %}
+        {% else %}
+            {% consent_button result %}
+        {% endif %}
     {% endif %}
     </div>
     </td>
@@ -53,7 +43,6 @@
 
 {% block listboard_table_columns %}
 
-    <td>{{ result.html_reason|wordwrap:20 }}</td>
     <td>{{ result.screening_identifier }} </td>
     <td nowrap>{% if "092" in result.consent.subject_identifier %}{{ result.consent.subject_identifier }}{% endif %}</td>
     <td nowrap>{{ result.age_in_years }} yrs</td>
