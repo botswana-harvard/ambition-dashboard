@@ -1,9 +1,5 @@
 from ambition_dashboard.model_wrappers import AppointmentModelWrapper
-from ambition_rando.models import RandomizationList
-from ambition_screening import EarlyWithdrawalEvaluator
-from ambition_visit_schedule import DAY1
 from django.apps import apps as django_apps
-from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.core.exceptions import ObjectDoesNotExist
 from django.utils.decorators import method_decorator
@@ -16,10 +12,11 @@ from edc_subject_dashboard.view_mixins import SubjectDashboardViewMixin
 from ....model_wrappers import CrfModelWrapper, SubjectVisitModelWrapper
 from ....model_wrappers import RequisitionModelWrapper, SubjectConsentModelWrapper
 from ....model_wrappers import SubjectLocatorModelWrapper, SubjectOffstudyModelWrapper
+from ambition_rando.treatment_description_mixin import TreatmentContextMixin
 
 
 class DashboardView(
-        SubjectDashboardViewMixin,
+        SubjectDashboardViewMixin, TreatmentContextMixin,
         NavbarViewMixin, EdcBaseViewMixin, BaseDashboardView):
 
     dashboard_url = 'subject_dashboard_url'
@@ -47,17 +44,7 @@ class DashboardView(
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         self.check_offstudy_required()
-        context.update(
-            demographics_listgroup=[
-                ('fa-random', self.randomization.short_label)])
         return context
-
-    @property
-    def randomization(self):
-        """Returns a model instance.
-        """
-        return RandomizationList.objects.get(
-            subject_identifier=self.subject_identifier)
 
     def empty_appointment(self, **kwargs):
         return Appointment()
