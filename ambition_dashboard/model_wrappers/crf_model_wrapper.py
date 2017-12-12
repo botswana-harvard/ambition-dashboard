@@ -5,4 +5,3 @@ from ambition_rando.treatment_description_mixin import TreatmentModelWrapperMixi
 class CrfModelWrapper(TreatmentModelWrapperMixin, BaseCrfModelWrapper):
 
     querystring_attrs = ['subject_visit', 'regimen']
-    randomization_list_model = 'ambition_rando.randomizationlist'
