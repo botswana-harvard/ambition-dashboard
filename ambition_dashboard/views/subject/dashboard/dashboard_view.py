@@ -1,7 +1,5 @@
 from ambition_dashboard.model_wrappers import AppointmentModelWrapper
-from django.apps import apps as django_apps
 from django.contrib.auth.decorators import login_required
-from django.core.exceptions import ObjectDoesNotExist
 from django.utils.decorators import method_decorator
 from edc_appointment.models import Appointment
 from edc_base.view_mixins import EdcBaseViewMixin
@@ -34,17 +32,11 @@ class DashboardView(
     requisition_model_wrapper_cls = RequisitionModelWrapper
     subject_locator_model = 'ambition_subject.subjectlocator'
     subject_locator_model_wrapper_cls = SubjectLocatorModelWrapper
-    subject_offstudy_model = 'ambition_subject.subjectoffstudy'
     visit_model_wrapper_cls = SubjectVisitModelWrapper
 
     @method_decorator(login_required)
     def dispatch(self, *args, **kwargs):
         return super().dispatch(*args, **kwargs)
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        self.check_offstudy_required()
-        return context
 
     def empty_appointment(self, **kwargs):
         return Appointment()
@@ -54,26 +46,3 @@ class DashboardView(
         if (enrollment_instance.schedule_name == 'schedule'):
             return True
         return False
-
-    def check_offstudy_required(self):
-        """Offstudy form is required if study_termination or
-        death_report exist and the off study form has not
-        yet been completed.
-        """
-        offstudy_required = False
-        model_cls = django_apps.get_model(self.subject_offstudy_model)
-        try:
-            model_cls.objects.get(
-                subject_identifier=self.subject_identifier)
-        except ObjectDoesNotExist:
-            pass
-        else:
-            for model in [self.study_termination_model, self.death_report_model]:
-                model_cls = django_apps.get_model(model)
-                try:
-                    model_cls.objects.get(
-                        subject_identifier=self.subject_identifier)
-                except ObjectDoesNotExist:
-                    offstudy_required = True
-                    break
-        return offstudy_required
