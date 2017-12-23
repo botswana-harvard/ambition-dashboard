@@ -37,8 +37,8 @@ class DashboardView(
     def empty_appointment(self, **kwargs):
         return Appointment()
 
-    def is_current_enrollment_model(self, enrollment_instance,
+    def is_current_onschedule_model(self, onschedule_instance,
                                     schedule=None, **kwargs):
-        if (enrollment_instance.schedule_name == schedule.name):
+        if (onschedule_instance.schedule_name == schedule.name):
             return True
         return False
