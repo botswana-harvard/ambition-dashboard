@@ -76,6 +76,8 @@ class SubjectScreening(BaseUuidModel):
 
     screening_identifier = models.CharField(max_length=25)
 
+    gender = models.CharField(max_length=25)
+
 
 class SubjectConsent(BaseUuidModel):
 

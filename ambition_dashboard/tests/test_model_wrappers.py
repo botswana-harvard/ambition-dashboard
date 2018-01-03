@@ -6,17 +6,31 @@ from ..model_wrappers import RequisitionModelWrapper
 from ..model_wrappers import SubjectConsentModelWrapper
 from ..model_wrappers import SubjectLocatorModelWrapper
 from ..model_wrappers import SubjectVisitModelWrapper
+from ..model_wrappers import SubjectScreeningModelWrapper
 from .models import SubjectScreening, Appointment, SubjectVisit
 
 
-class MyModelWrapperTestHelper(ModelWrapperTestHelper):
+class SubjectModelWrapperTestHelper(ModelWrapperTestHelper):
     dashboard_url = '/subject_dashboard/'
+
+
+class ScreeningModelWrapperTestHelper(ModelWrapperTestHelper):
+    dashboard_url = '/screening_listboard/'
 
 
 class TestModelWrappers(TestCase):
 
-    model_wrapper_helper_cls = MyModelWrapperTestHelper
+    model_wrapper_helper_cls = SubjectModelWrapperTestHelper
 
+    @tag('1')
+    def test_subject_screening(self):
+        helper = ScreeningModelWrapperTestHelper(
+            model_wrapper=SubjectScreeningModelWrapper,
+            app_label='ambition_dashboard',
+            screening_identifier='ABCDEFGH')
+        helper.test(self)
+
+    @tag('1')
     def test_subject_consent(self):
         SubjectScreening.objects.create(
             screening_identifier='1234')
@@ -26,6 +40,7 @@ class TestModelWrappers(TestCase):
             subject_identifier='092-12345')
         helper.test(self)
 
+    @tag('1')
     def test_subject_locator(self):
         helper = self.model_wrapper_helper_cls(
             model_wrapper=SubjectLocatorModelWrapper,

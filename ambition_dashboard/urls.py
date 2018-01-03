@@ -37,12 +37,12 @@ if settings.APP_NAME == 'ambition_dashboard':
     from django.views.generic.base import RedirectView
     from edc_base.views import LoginView, LogoutView
 
-    from .tests.admin import ambition_subject_admin
+    from .tests.admin import ambition_test_admin
 
     urlpatterns += [
         path('edc_device/', include('edc_device.urls')),
         path('edc_protocol/', include('edc_protocol.urls')),
-        path('admin/', ambition_subject_admin.urls),
+        path('admin/', ambition_test_admin.urls),
         path('admininistration/', RedirectView.as_view(url='admin/'),
              name='administration_url'),
         path('login', LoginView.as_view(), name='login_url'),

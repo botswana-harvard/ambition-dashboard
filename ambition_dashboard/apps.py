@@ -4,7 +4,7 @@ from django.conf import settings
 
 class AppConfig(DjangoAppConfig):
     name = 'ambition_dashboard'
-    admin_site_name = 'ambition_subject_admin'
+    admin_site_name = 'ambition_test_admin'
     include_in_administration_section = False
 
 

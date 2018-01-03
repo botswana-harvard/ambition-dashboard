@@ -1,20 +1,21 @@
 from django.contrib.admin import AdminSite as DjangoAdminSite
 
 from .models import SubjectConsent, SubjectLocator, Appointment
-from .models import SubjectRequisition, SubjectVisit
+from .models import SubjectRequisition, SubjectVisit, SubjectScreening
 
 
 class AdminSite(DjangoAdminSite):
     site_title = 'Ambition Subject'
     site_header = 'Ambition Subject'
     index_title = 'Ambition Subject'
-    site_url = '/ambition_subject/list/'
+    site_url = '/administration/'
 
 
-ambition_subject_admin = AdminSite(name='ambition_subject_admin')
+ambition_test_admin = AdminSite(name='ambition_test_admin')
 
-ambition_subject_admin.register(SubjectConsent)
-ambition_subject_admin.register(SubjectLocator)
-ambition_subject_admin.register(Appointment)
-ambition_subject_admin.register(SubjectVisit)
-ambition_subject_admin.register(SubjectRequisition)
+ambition_test_admin.register(SubjectScreening)
+ambition_test_admin.register(SubjectConsent)
+ambition_test_admin.register(SubjectLocator)
+ambition_test_admin.register(Appointment)
+ambition_test_admin.register(SubjectVisit)
+ambition_test_admin.register(SubjectRequisition)

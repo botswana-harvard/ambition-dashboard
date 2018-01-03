@@ -25,6 +25,7 @@ SECRET_KEY = 'ftblcrb__%!_r6nl_kn-*u(rwhfeakwv*)j4^%=ltvp&s9^@i9'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
+SITE_ID = '10'
 
 ALLOWED_HOSTS = []
 
@@ -38,6 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django.contrib.sites',
     'django_crypto_fields.apps.AppConfig',
     'django_revision.apps.AppConfig',
     'edc_timepoint.apps.AppConfig',

@@ -9,7 +9,6 @@ from .subject_consent_model_wrapper import SubjectConsentModelWrapper
 
 class SubjectScreeningModelWrapper(ConsentModelWrapperMixin, ModelWrapper):
 
-    consent_model = 'ambition_subject.subjectconsent'
     consent_model_wrapper_cls = SubjectConsentModelWrapper
     model = 'ambition_screening.subjectscreening'
     next_url_attrs = ['screening_identifier']
@@ -30,10 +29,12 @@ class SubjectScreeningModelWrapper(ConsentModelWrapperMixin, ModelWrapper):
     def consent(self):
         """Returns a wrapped saved or unsaved consent.
         """
-        model_cls = django_apps.get_model(self.consent_model)
+        consent_model_cls = django_apps.get_model(
+            self.consent_model_wrapper_cls.model)
         try:
-            consent = model_cls.objects.get(
+            consent_model_obj = consent_model_cls.objects.get(
                 screening_identifier=self.object.screening_identifier)
         except ObjectDoesNotExist:
-            consent = self.consent_object.model(**self.create_consent_options)
-        return self.consent_model_wrapper_cls(model_obj=consent)
+            consent_model_obj = consent_model_cls(
+                **self.create_consent_options)
+        return self.consent_model_wrapper_cls(model_obj=consent_model_obj)

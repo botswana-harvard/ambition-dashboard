@@ -2,7 +2,6 @@ from ambition_dashboard.model_wrappers import AppointmentModelWrapper
 from ambition_rando.view_mixins import RandomizationListViewMixin
 from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
-from edc_appointment.models import Appointment
 from edc_base.view_mixins import EdcBaseViewMixin
 from edc_dashboard.views import DashboardView as BaseDashboardView
 from edc_navbar import NavbarViewMixin
@@ -19,6 +18,7 @@ class DashboardView(
 
     dashboard_url = 'subject_dashboard_url'
     dashboard_template = 'subject_dashboard_template'
+    appointment_model = 'edc_appointment.appointment'
     appointment_model_wrapper_cls = AppointmentModelWrapper
     consent_model = 'ambition_subject.subjectconsent'
     consent_model_wrapper_cls = SubjectConsentModelWrapper
@@ -26,19 +26,10 @@ class DashboardView(
     navbar_name = 'ambition_dashboard'
     navbar_selected_item = 'consented_subject'
     requisition_model_wrapper_cls = RequisitionModelWrapper
-    subject_locator_model = 'ambition_subject.subjectlocator'
+    subject_locator_model = 'edc_locator.subjectlocator'
     subject_locator_model_wrapper_cls = SubjectLocatorModelWrapper
     visit_model_wrapper_cls = SubjectVisitModelWrapper
 
     @method_decorator(login_required)
     def dispatch(self, *args, **kwargs):
         return super().dispatch(*args, **kwargs)
-
-    def empty_appointment(self, **kwargs):
-        return Appointment()
-
-    def is_current_onschedule_model(self, onschedule_instance,
-                                    schedule=None, **kwargs):
-        if (onschedule_instance.schedule_name == schedule.name):
-            return True
-        return False
