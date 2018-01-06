@@ -18,6 +18,7 @@
     <th>Screening Identifier</th>
     <th>Subject Identifier</th>
     <th>Age</th>
+    <th>User</th>
     <th>Modified</th>
     <th>Host</th>
     <!-- end results header -->
@@ -46,6 +47,7 @@
     <td>{{ result.screening_identifier }} </td>
     <td nowrap>{% if "092" in result.consent.subject_identifier %}{{ result.consent.subject_identifier }}{% endif %}</td>
     <td nowrap>{{ result.age_in_years }} yrs</td>
+    <td nowrap>{{ result.user_created }}</td>
     <td nowrap>{{ result.object.modified|date:"SHORT_DATETIME_FORMAT" }}</td>  
     <td nowrap>{{ result.hostname_created }}</td>
 
