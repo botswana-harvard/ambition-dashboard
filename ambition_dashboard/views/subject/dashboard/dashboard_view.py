@@ -7,8 +7,8 @@ from edc_dashboard.views import DashboardView as BaseDashboardView
 from edc_navbar import NavbarViewMixin
 from edc_subject_dashboard.view_mixins import SubjectDashboardViewMixin
 
-from ....model_wrappers import CrfModelWrapper, SubjectVisitModelWrapper
-from ....model_wrappers import RequisitionModelWrapper, SubjectConsentModelWrapper
+from ....model_wrappers import SubjectVisitModelWrapper
+from ....model_wrappers import SubjectConsentModelWrapper
 from ....model_wrappers import SubjectLocatorModelWrapper
 
 
@@ -22,10 +22,8 @@ class DashboardView(
     appointment_model_wrapper_cls = AppointmentModelWrapper
     consent_model = 'ambition_subject.subjectconsent'
     consent_model_wrapper_cls = SubjectConsentModelWrapper
-    crf_model_wrapper_cls = CrfModelWrapper
     navbar_name = 'ambition_dashboard'
     navbar_selected_item = 'consented_subject'
-    requisition_model_wrapper_cls = RequisitionModelWrapper
     subject_locator_model = 'edc_locator.subjectlocator'
     subject_locator_model_wrapper_cls = SubjectLocatorModelWrapper
     visit_model_wrapper_cls = SubjectVisitModelWrapper
