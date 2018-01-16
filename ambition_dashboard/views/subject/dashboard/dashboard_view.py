@@ -1,7 +1,5 @@
 from ambition_dashboard.model_wrappers import AppointmentModelWrapper
 from ambition_rando.view_mixins import RandomizationListViewMixin
-from django.contrib.auth.decorators import login_required
-from django.utils.decorators import method_decorator
 from edc_base.view_mixins import EdcBaseViewMixin
 from edc_dashboard.views import DashboardView as BaseDashboardView
 from edc_navbar import NavbarViewMixin
@@ -13,8 +11,9 @@ from ....model_wrappers import SubjectLocatorModelWrapper
 
 
 class DashboardView(
-        SubjectDashboardViewMixin, RandomizationListViewMixin,
-        NavbarViewMixin, EdcBaseViewMixin, BaseDashboardView):
+        EdcBaseViewMixin, SubjectDashboardViewMixin,
+        RandomizationListViewMixin,
+        NavbarViewMixin, BaseDashboardView):
 
     dashboard_url = 'subject_dashboard_url'
     dashboard_template = 'subject_dashboard_template'
@@ -27,7 +26,3 @@ class DashboardView(
     subject_locator_model = 'edc_locator.subjectlocator'
     subject_locator_model_wrapper_cls = SubjectLocatorModelWrapper
     visit_model_wrapper_cls = SubjectVisitModelWrapper
-
-    @method_decorator(login_required)
-    def dispatch(self, *args, **kwargs):
-        return super().dispatch(*args, **kwargs)

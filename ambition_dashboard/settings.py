@@ -25,7 +25,9 @@ SECRET_KEY = 'ftblcrb__%!_r6nl_kn-*u(rwhfeakwv*)j4^%=ltvp&s9^@i9'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
-SITE_ID = '10'
+SITE_ID = 10
+REVIEWER_SITE_ID = 0
+
 
 ALLOWED_HOSTS = []
 
