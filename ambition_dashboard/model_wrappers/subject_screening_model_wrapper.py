@@ -26,15 +26,14 @@ class SubjectScreeningModelWrapper(ConsentModelWrapperMixin, ModelWrapper):
         return options
 
     @property
-    def consent(self):
-        """Returns a wrapped saved or unsaved consent.
-        """
+    def consent_options(self):
+        return dict(screening_identifier=self.object.screening_identifier)
+
+    @property
+    def consent_model_obj(self):
         consent_model_cls = django_apps.get_model(
             self.consent_model_wrapper_cls.model)
         try:
-            consent_model_obj = consent_model_cls.objects.get(
-                screening_identifier=self.object.screening_identifier)
+            return consent_model_cls.objects.get(**self.consent_options)
         except ObjectDoesNotExist:
-            consent_model_obj = consent_model_cls(
-                **self.create_consent_options)
-        return self.consent_model_wrapper_cls(model_obj=consent_model_obj)
+            return None
